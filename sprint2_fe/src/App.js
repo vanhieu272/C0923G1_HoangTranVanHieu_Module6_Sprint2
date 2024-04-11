@@ -7,6 +7,9 @@ import {
 import HeaderSalesPage from "./components/Header/HeaderSalesPage";
 import "./App.css";
 import HomePage from "./components/HomePage/HomePage";
+import AllProducts from "./components/AllProducts/AllProducts";
+import SizeGuide from "./components/SizeGuide/SizeGuide";
+
 
 function App() {
   return (
@@ -14,6 +17,9 @@ function App() {
     <Routes>
       <Route path="/" element={<HeaderSalesPage></HeaderSalesPage>} ></Route>
       <Route path="/homepage" element={<HomePage></HomePage>} ></Route>
+      <Route path="/all-products" element={<AllProducts></AllProducts>} ></Route>
+      <Route path="/guide" element={<SizeGuide></SizeGuide>}></Route>
+
 
     </Routes>
     </BrowserRouter>

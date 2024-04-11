@@ -1,4 +1,5 @@
 #basic-navbar-nav .nav-link{
+    font-size: large;
     font-weight: 600;
     text-transform: uppercase;
     color: white;
@@ -7,8 +8,19 @@
 
 #basic-navbar-nav .nav-link:hover{
     text-decoration-line: underline;
-    text-decoration-thickness: 0.3rem;
+    text-decoration-thickness: 0.15rem;
+    color: #FEB31F;
 }
+
+.icon-hover{
+    color: white !important;
+}
+
+#login-out:hover, .icon-hover:hover{
+    color: #FEB31F !important;
+}
+
+
 
 #toggle-menu{
     background: white;
@@ -22,4 +34,8 @@
 .nav-dropdown-item:active {
     background-color: black !important;
     color: white !important;
+}
+
+.dropdown-menu{
+    --bs-dropdown-min-width: 6rem !important;
 }

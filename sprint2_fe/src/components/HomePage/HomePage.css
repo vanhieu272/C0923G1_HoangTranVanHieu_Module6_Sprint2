@@ -8,11 +8,22 @@
     margin-top: 150px;
 }
 
-#outstanding-products .carousel-control-prev{
+#outstanding-products .carousel-control-prev {
     margin-left: 25px;
 }
 
-#outstanding-products .carousel-control-next{
+#outstanding-products .carousel-control-next {
     margin-right: 25px;
 }
+
+.image-container {
+    position: relative;
+    overflow: hidden; /* Đảm bảo phần border không bị hiển thị ngoài phần ảnh */
+}
+
+.image-container:hover img {
+    transform: scale(1.1); /* Scale ảnh lên 110% khi hover */
+    transition: transform .5s; /* Hiệu ứng transition khi hover */
+}
+
 

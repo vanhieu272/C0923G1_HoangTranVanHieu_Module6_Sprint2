@@ -1,9 +1,51 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 
+
 *{
     font-family: Oswald, sans-serif;
 }
 
 body{
-    background: black;
+    background: #282828;
+}
+
+.page-item {
+    margin: 0 5px;
+    list-style: none;
+}
+
+.page-link {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.page-link:hover {
+    border: solid 1px white;
+    color: white;
+    background-color: black;
+}
+
+.active .page-link {
+    background-color: black;
+    color: #fff;
+    border-color: white;
+}
+
+.product-price{
+    color: #FEB31F;
+}
+
+h2{
+    color: #FEB31F!important;
+}
+
+.search-row{
+    background: #282828;
+    z-index: 10;
+    position: sticky;
+    top: 10%;
 }

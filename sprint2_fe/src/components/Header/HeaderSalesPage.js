@@ -8,25 +8,30 @@ import "./HeaderSalesPage.css";
 export default function HeaderSalesPage() {
     return(
         <>
-            <Navbar expand="lg" className="bg-black fixed-top">
-                <Container >
-                    <Navbar.Brand href="#home"><img width="100%" height="50px" src="https://heliosjewels.vn/cdn/shop/files/logo_500x.png?v=1652960279" alt="logo"/></Navbar.Brand>
+            <Navbar expand="lg" className="bg-black sticky-top">
+                <Container>
+                    <Navbar.Brand href="/homepage"><img width="100%" height="50px" src="https://heliosjewels.vn/cdn/shop/files/logo_500x.png?v=1652960279" alt="logo"/></Navbar.Brand>
                     <Navbar.Toggle id="toggle-menu" aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-center">
                         <Nav>
-                            <Nav.Link className="mx-1" href="#home">Tất cả</Nav.Link>
-                            <Nav.Link href="#link">Nhẫn</Nav.Link>
-                            <Nav.Link href="#link">Vòng tay</Nav.Link>
-                            <Nav.Link href="#link">Khuyên tai</Nav.Link>
-                            <Nav.Link href="#link">Dây chuyền</Nav.Link>
-                            <Nav.Link href="#link">Thông số kích cỡ</Nav.Link>
-                            <Nav.Link href="#link">Liên hệ</Nav.Link>
+                            <Nav.Link href="/all-products" className="mx-1">all</Nav.Link>
+                            <Nav.Link href="#link">rings</Nav.Link>
+                            <Nav.Link href="#link">bracelets</Nav.Link>
+                            <Nav.Link href="#link">earrings</Nav.Link>
+                            <Nav.Link href="#link">necklaces</Nav.Link>
+                            <Nav.Link href="/guide">size guide</Nav.Link>
+                            <Nav.Link href="#link">about us</Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
-                    <Nav>
-                        <Nav.Link className="me-3"><i style={{fontSize: "25px"}} className="bi bi-cart-plus text-light"></i></Nav.Link>
+                    <Nav className="me-3">
+                        <Nav.Link className="icon-hover"><i style={{fontSize: "24px"}} className="bi bi-search"></i></Nav.Link>
                     </Nav>
-                    <NavDropdown title={<i style={{fontSize: "25px"}} className="bi bi-person-circle"></i>} id="login-out">
+                    <Nav className="me-3">
+                        <Nav.Link className="icon-hover"><i style={{fontSize: "24px"}} className="bi bi-cart-plus"></i></Nav.Link>
+                    </Nav>
+                    <NavDropdown title={<i style={{fontSize: "24px"}} className="bi bi-person-circle"></i>} id="login-out">
+                        <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-person"></i> My information</NavDropdown.Item>
+                        <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-bag-heart"></i> Order History</NavDropdown.Item>
                         <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-box-arrow-in-right"></i> Log In</NavDropdown.Item>
                         <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-x-circle"></i> Log Out</NavDropdown.Item>
                     </NavDropdown>
