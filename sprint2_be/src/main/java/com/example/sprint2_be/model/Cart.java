@@ -26,5 +26,5 @@ public class Cart {
 
     @ManyToOne
     @JoinColumn
-    private Customer customer;
+    private User user;
 }

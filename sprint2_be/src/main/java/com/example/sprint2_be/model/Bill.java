@@ -24,5 +24,5 @@ public class Bill {
 
     @ManyToOne
     @JoinColumn
-    private Customer customer;
+    private User user;
 }
