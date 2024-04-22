@@ -7,10 +7,14 @@ import {
 import HeaderSalesPage from "./components/Header/HeaderSalesPage";
 import "./App.css";
 import HomePage from "./components/HomePage/HomePage";
-import AllProducts from "./components/AllProducts/AllProducts";
+import AllProducts from "./components/Products/AllProducts/AllProducts";
 import SizeGuide from "./components/SizeGuide/SizeGuide";
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
+import ProductDetail from "./components/Products/ProductDetail/ProductDetail";
+
+
+
 
 
 function App() {
@@ -23,6 +27,8 @@ function App() {
                 <Route path="/guide" element={<SizeGuide></SizeGuide>}></Route>
                 <Route path="/login" element={<SignIn></SignIn>}> </Route>
                 <Route path="/signup" element={<SignUp></SignUp>}></Route>
+                <Route path="/detail" element={<ProductDetail></ProductDetail>}></Route>
+
 
 
             </Routes>

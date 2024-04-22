@@ -4,25 +4,49 @@ import Card from 'react-bootstrap/Card';
 import "./HomePage.css";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Footer from "../Foooter/Footer";
 import {Link} from "react-router-dom";
+import * as service from "../../service/AccessoryService";
+import LoadingData from "../LoadingData/LoadingData";
 
 
 export default function HomePage() {
     document.title = "Helios";
 
-    const cards = [
-        {id: 1, title: "Card 1"},
-        {id: 2, title: "Card 2"},
-        {id: 3, title: "Card 3"},
-        {id: 4, title: "Card 4"},
-        {id: 5, title: "Card 5"},
-        {id: 6, title: "Card 6"},
-        {id: 7, title: "Card 7"},
-        {id: 8, title: "Card 8"},
-        // Add more sample cards as needed
-    ];
+    const [listNewProducts, setListNewProducts] = useState([]);
+    const [listFeatureProducts, setListFeatureProducts] = useState([]);
+
+
+    const getFeatureProducts = async () => {
+        try{
+            let rs = await service.getFeatureAccessory();
+            setListFeatureProducts(rs);
+        }catch (e){
+            console.log(e);
+        }
+    }
+    const getNewProducts = async () => {
+        try{
+            let rs = await service.getNewAccessory();
+            setListNewProducts(rs);
+        }catch (e){
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        getFeatureProducts();
+        getNewProducts();
+    }, []);
+
+    // if(listNewProducts == null){
+    //     return (
+    //         <>
+    //             <LoadingData></LoadingData>
+    //         </>
+    //     )
+    // }
 
 
     return (
@@ -58,101 +82,89 @@ export default function HomePage() {
             <div className="container mt-5" id="outstanding-products">
                 <h2 className="py-4 text-uppercase">FEATURED PRODUCTS</h2>
                 <Carousel controls={true} indicators={false}>
-                    {Array.from({length: Math.ceil(cards.length / 4)}, (_, i) => (
-                        <Carousel.Item key={i}>
+                    <Carousel.Item>
+                        <div className="d-flex">
+                            {listFeatureProducts.map(product => (
+                                <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 p-2">
+                                    <Card key={product.id} className="border-0">
+                                       <div className="image-container">
+                                            <Link to="#">
+                                                <Card.Img variant="top" className="rounded-0" src={product.thumbnailImg}/>
+                                            </Link>
+                                        </div>
+                                        <Card.Body className="bg-black text-light">
+                                            {/*<Card.Title>{card.title}</Card.Title>*/}
+                                            <Card.Title className="fw-bold">{product.name}</Card.Title>
+                                            <Card.Subtitle className="product-price">Price: {product.price} $</Card.Subtitle>
+                                            <div className="row d-flex mt-2">
+                                                <div className="col-5">
+                                                    <p style={{
+                                                        fontSize: '20px'
+                                                    }}>Sold: {product.sold}</p>
+                                                </div>
+                                                <div className="col-7">
+                                                    {product.quantity === 0 ? (
+                                                        <Button variant="outline-light"
+                                                                className="w-100 border-2 border-white" disabled>Sold out <i className="bi bi-backspace-fill"></i></Button>
+                                                    ) : (
+                                                        <Button variant="outline-light"
+                                                                className="w-100 border-2 border-white">Add to cart <i className="bi bi-plus-circle"></i></Button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                </div>
+                            ))}
+                        </div>
+                    </Carousel.Item>
+                </Carousel>
+
+            </div>
+
+            {/*Sản phẩm mới*/}
+            <div className="container mt-5" id="outstanding-products">
+                <h2 className="py-4 text-uppercase">LATEST PRODUCTS</h2>
+                <Carousel controls={true} indicators={false}>
+                        <Carousel.Item>
                             <div className="d-flex">
-                                {cards.slice(i * 4, i * 4 + 4).map(card => (
+                                {listNewProducts.map(product => (
                                     <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 p-2">
-                                            <Card key={card.id} className="border-0">
-                                                {/*<Card.Img variant="top" className="rounded-0"*/}
-                                                {/*          src="https://heliosglobalbrand.com/cdn/shop/files/balance-ring-helios_3_1728x.jpg?v=1709875271"/>*/}
+                                            <Card key={product.id} className="border-0">
                                                 <div className="image-container">
                                                    <Link to="#">
-                                                       <Card.Img variant="top" className="rounded-0" src="https://heliosglobalbrand.com/cdn/shop/files/balance-ring-helios_3_1728x.jpg?v=1709875271"/>
+                                                       <Card.Img variant="top" className="rounded-0" src={product.thumbnailImg}/>
                                                    </Link>
                                                 </div>
                                                 <Card.Body className="bg-black text-light">
-                                                    {/*<Card.Title>{card.title}</Card.Title>*/}
-                                                    <Card.Title>Helios Lotus Ring</Card.Title>
-                                                    <Card.Subtitle className="product-price">Price: 147 $</Card.Subtitle>
+                                                    <Card.Title className="fw-bold">{product.name}</Card.Title>
+                                                    <Card.Subtitle className="product-price">Price: {product.price} $</Card.Subtitle>
                                                     <div className="row d-flex mt-2">
                                                         <div className="col-5">
-                                                            <Form.Select className="border-2 border-black">
-                                                                <option value="6">Size 6</option>
-                                                                <option value="6">Size 7</option>
-                                                                <option value="6">Size 8</option>
-                                                                <option value="6">Size 9</option>
-                                                                <option value="6">Size 10</option>
-                                                                <option value="6">Size 11</option>
-                                                                <option value="6">Size 12</option>
-                                                                <option value="6">Size 13</option>
-                                                            </Form.Select>
+                                                           <p style={{
+                                                               fontSize: '20px'
+                                                           }}>Sold: {product.sold}</p>
                                                         </div>
                                                         <div className="col-7">
-                                                            <Button variant="outline-light"
-                                                                    className="w-100 border-2 border-white">Add to cart</Button>
+                                                            {product.quantity === 0 ? (
+                                                                <Button variant="outline-light"
+                                                                        className="w-100 border-2 border-white" disabled>Sold out <i className="bi bi-backspace-fill"></i></Button>
+                                                            ) : (
+                                                                <Button variant="outline-light"
+                                                                        className="w-100 border-2 border-white">Add to cart <i className="bi bi-plus-circle"></i></Button>
+                                                            )}
                                                         </div>
                                                     </div>
-                                                    {/* Add other card content as needed */}
                                                 </Card.Body>
                                             </Card>
                                     </div>
                                 ))}
                             </div>
                         </Carousel.Item>
-                    ))}
                 </Carousel>
-
-
 
                 {/*Sản phẩm mới*/}
 
-                <h2 className="mt-5 py-4 text-uppercase">New Products</h2>
-                <Carousel controls={true} indicators={false}>
-                    {Array.from({length: Math.ceil(cards.length / 4)}, (_, i) => (
-                        <Carousel.Item key={i}>
-                            <div className="d-flex">
-                                {cards.slice(i * 4, i * 4 + 4).map(card => (
-                                    <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 p-2">
-                                        <Card key={card.id} className="border-0">
-                                            {/*<Card.Img variant="top" className="rounded-0"*/}
-                                            {/*          src="https://heliosglobalbrand.com/cdn/shop/files/balance-ring-helios_3_1728x.jpg?v=1709875271"/>*/}
-                                            <div className="image-container">
-                                                <Link to="#">
-                                                    <Card.Img variant="top" className="rounded-0" src="https://heliosglobalbrand.com/cdn/shop/files/balance-ring-helios_3_1728x.jpg?v=1709875271"/>
-                                                </Link>
-                                            </div>
-                                            <Card.Body className="bg-black text-light">
-                                                <Card.Title>{card.title}</Card.Title>
-                                                {/*<Card.Title>Nhẫn Helios Lotus</Card.Title>*/}
-                                                <Card.Subtitle className="product-price">Price: 135.5 $</Card.Subtitle>
-                                                <div className="row d-flex mt-2">
-                                                    <div className="col-5">
-                                                        <Form.Select className="border-2 border-black">
-                                                            <option value="6">Size 6</option>
-                                                            <option value="6">Size 7</option>
-                                                            <option value="6">Size 8</option>
-                                                            <option value="6">Size 9</option>
-                                                            <option value="6">Size 10</option>
-                                                            <option value="6">Size 11</option>
-                                                            <option value="6">Size 12</option>
-                                                            <option value="6">Size 13</option>
-                                                        </Form.Select>
-                                                    </div>
-                                                    <div className="col-7">
-                                                        <Button variant="outline-light"
-                                                                className="w-100 border-2 border-white">Add to cart</Button>
-                                                    </div>
-                                                </div>
-                                                {/* Add other card content as needed */}
-                                            </Card.Body>
-                                        </Card>
-                                    </div>
-                                ))}
-                            </div>
-                        </Carousel.Item>
-                    ))}
-                </Carousel>
 
                 <div style={{height: "300px", border: "2px solid white"}} className="row my-5 bg-dark mx-1 ">
                     <div className="text-center d-flex col-lg-5 col-md-12 align-items-center justify-content-center">
@@ -179,9 +191,7 @@ export default function HomePage() {
 
             </div>
 
-            {/*FOOTER*/}
             <Footer></Footer>
-
         </>
     )
 }

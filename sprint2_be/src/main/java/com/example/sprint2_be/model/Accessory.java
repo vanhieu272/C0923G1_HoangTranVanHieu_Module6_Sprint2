@@ -27,6 +27,9 @@ public class Accessory {
 
     private Integer quantity;
 
+    @Column(columnDefinition = "0")
+    private Integer sold;
+
     private String size;
 
     @Column(columnDefinition = "LONGTEXT", length = 1500)

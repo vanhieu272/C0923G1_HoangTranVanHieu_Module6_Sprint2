@@ -1,0 +1,36 @@
+#detail-product .carousel-inner > .item {
+    position: relative;
+    display: none;
+    -webkit-transition: 0.2ms ease-in-out left;
+    -moz-transition: 0.2ms ease-in-out left;
+    -o-transition: 0.2ms ease-in-out left;
+    transition: 0.2ms ease-in-out left;
+}
+
+#detail-product .img-detail ol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+}
+
+#detail-product .img-detail ol img:active{
+     border: solid 1px #b9b9b9;
+ }
+
+#detail-product .carousel-control-prev,
+#detail-product .carousel-control-next {
+    width: 50px;
+    height: 50px;
+    background-color: #000;
+    border-radius: 45px;
+    margin-top: 45%;
+}
+
+#detail-product .carousel-control-prev {
+    margin-left: 25px;
+}
+
+#detail-product .carousel-control-next {
+    margin-right: 25px;
+}

@@ -39,3 +39,50 @@
 .dropdown-menu{
     --bs-dropdown-min-width: 6rem !important;
 }
+
+.modal-content{
+    background-color: #282828 !important;
+}
+
+.btn-close{
+    --bs-btn-close-color: #fff !important;
+    --bs-btn-close-bg: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT26rri2HXLisHx8F5hkBoQWT2-skLoprlC9U_dv8fy9A&s") !important;
+}
+
+.modal-header{
+    border-bottom: none;
+}
+
+@keyframes inputWrapper {
+    from {
+        transform: translateX(-40%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.input-wrapper {
+    position: relative;
+    display: inline-block;
+    animation: inputWrapper 0.4s ease-out;
+}
+
+.input-wrapper input {
+    padding-right: 40px;
+}
+
+.input-wrapper button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.input-wrapper input:focus{
+    outline: none;
+    border-left: none;
+    border-right: none;
+}
