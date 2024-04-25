@@ -6,21 +6,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class Size {
+@NoArgsConstructor
+public class AccessorySize {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
 
-    @OneToMany(mappedBy = "size")
-    List<AccessorySize> accessorySizes;
-    
+    @ManyToOne
+    private Accessory accessory;
+
+    @ManyToOne
+    private Size size;
+
 }

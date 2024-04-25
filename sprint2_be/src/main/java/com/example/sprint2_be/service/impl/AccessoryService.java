@@ -20,7 +20,7 @@ public class AccessoryService implements IAccesoryService {
     IAccessoryRepository accessoryRepository;
 
     @Override
-    public Page<Accessory> searchAccessory(String name, Float minPrice, Float maxPrice, String category, String size, Pageable pageable) {
+    public Page<Accessory> searchAccessory(String name, Float minPrice, Float maxPrice, String size, Pageable pageable) {
         Specification<Accessory> spec = (root, query, criteriaBuilder) -> {
 
             List<Predicate> predicates = new ArrayList<>();
@@ -36,8 +36,8 @@ public class AccessoryService implements IAccesoryService {
             if (minPrice != null && maxPrice != null) {
                 predicates.add(criteriaBuilder.between(root.get("price"), minPrice, maxPrice));
             }
-            if (category != null && !category.isEmpty()) {
-                predicates.add(criteriaBuilder.like(root.get("category").get("name"), "%" + category + "%"));
+            if (name != null && !name.isEmpty()) {
+                predicates.add(criteriaBuilder.like(root.get("category").get("name"), "%" + name + "%"));
             }
 
 
@@ -57,4 +57,8 @@ public class AccessoryService implements IAccesoryService {
         return accessoryRepository.getFeatureAccessory();
     }
 
+//    @Override
+//    public Page<Accessory> searchByNameOrCategory(String name) {
+//        return accessoryRepository.searchByNameOrCategory(name);
+//    }
 }

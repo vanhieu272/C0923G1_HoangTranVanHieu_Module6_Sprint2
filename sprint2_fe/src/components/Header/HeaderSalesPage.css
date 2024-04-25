@@ -3,7 +3,7 @@
     font-weight: 600;
     text-transform: uppercase;
     color: white;
-
+    line-height: 50px;
 }
 
 #basic-navbar-nav .nav-link:hover{
@@ -44,10 +44,6 @@
     background-color: #282828 !important;
 }
 
-.btn-close{
-    --bs-btn-close-color: #fff !important;
-    --bs-btn-close-bg: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT26rri2HXLisHx8F5hkBoQWT2-skLoprlC9U_dv8fy9A&s") !important;
-}
 
 .modal-header{
     border-bottom: none;
@@ -85,4 +81,8 @@
     outline: none;
     border-left: none;
     border-right: none;
+}
+
+.btn-close{
+    background-color: white;
 }

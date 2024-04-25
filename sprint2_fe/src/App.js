@@ -12,6 +12,8 @@ import SizeGuide from "./components/SizeGuide/SizeGuide";
 import SignIn from "./components/SignIn/SignIn";
 import SignUp from "./components/SignUp/SignUp";
 import ProductDetail from "./components/Products/ProductDetail/ProductDetail";
+import Cart from "./components/Products/Cart/Cart";
+import Footer from "./components/Foooter/Footer";
 
 
 
@@ -20,6 +22,7 @@ import ProductDetail from "./components/Products/ProductDetail/ProductDetail";
 function App() {
     return (
         <BrowserRouter>
+            <HeaderSalesPage></HeaderSalesPage>
             <Routes>
                 <Route path="/" element={<HeaderSalesPage></HeaderSalesPage>}></Route>
                 <Route path="/homepage" element={<HomePage></HomePage>}></Route>
@@ -28,10 +31,12 @@ function App() {
                 <Route path="/login" element={<SignIn></SignIn>}> </Route>
                 <Route path="/signup" element={<SignUp></SignUp>}></Route>
                 <Route path="/detail" element={<ProductDetail></ProductDetail>}></Route>
+                <Route path="/cart" element={<Cart></Cart>}></Route>
 
 
 
             </Routes>
+            <Footer></Footer>
         </BrowserRouter>
     );
 }

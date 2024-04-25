@@ -16,8 +16,6 @@ export default function HomePage() {
 
     const [listNewProducts, setListNewProducts] = useState([]);
     const [listFeatureProducts, setListFeatureProducts] = useState([]);
-
-
     const getFeatureProducts = async () => {
         try{
             let rs = await service.getFeatureAccessory();
@@ -51,7 +49,6 @@ export default function HomePage() {
 
     return (
         <>
-            <HeaderSalesPage></HeaderSalesPage>
             <Carousel>
                 <Carousel.Item>
                     <img
@@ -191,7 +188,6 @@ export default function HomePage() {
 
             </div>
 
-            <Footer></Footer>
         </>
     )
 }

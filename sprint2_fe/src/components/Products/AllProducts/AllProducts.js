@@ -156,7 +156,6 @@ export default function AllProducts() {
 
     return (
         <>
-            <HeaderSalesPage></HeaderSalesPage>
             <div className="container" style={{marginTop: "5%"}}>
 
                 <h2>ALL PRODUCTS</h2>
@@ -166,28 +165,29 @@ export default function AllProducts() {
                         <div className="mx-4">
                             <select className="bg-light-subtle h-100 rounded-1">
                                 <option value="">
-                                    ALL PRODUCTS
+                                    Availability
                                 </option>
-                                {
-                                    listCategory.map((item) =>
-                                        <option key={item.id} value="{item.name}">{item.name}</option>
-                                    )
-                                }
-                            </select>
-                        </div>
-                        <div className="mx-4">
-                            <select className="bg-light-subtle h-100 rounded-1">
                                 <option>
-                                    FREESIZE
+                                    In stock
                                 </option>
-                                {
-                                    listSize.map((item) =>
-                                        <option key={item.id} value={item.name}>{item.name}</option>
-                                    )
-                                }
-
+                                <option>
+                                    Out of stock
+                                </option>
                             </select>
                         </div>
+                        {/*<div className="mx-4">*/}
+                        {/*    <select className="bg-light-subtle h-100 rounded-1">*/}
+                        {/*        <option>*/}
+                        {/*            FREESIZE*/}
+                        {/*        </option>*/}
+                        {/*        {*/}
+                        {/*            listSize.map((item) =>*/}
+                        {/*                <option key={item.id} value={item.name}>{item.name}</option>*/}
+                        {/*            )*/}
+                        {/*        }*/}
+
+                        {/*    </select>*/}
+                        {/*</div>*/}
                         <div className="mx-4">
                             <select className="bg-light-subtle h-100 rounded-1">
                                 <option value="">
@@ -200,13 +200,13 @@ export default function AllProducts() {
                                 }
                             </select>
                         </div>
-                        <div className="mx-4 w-25"><input
-                            className="h-100 w-100 rounded-1 bg-light-subtle border-1 border-light"/>
-                        </div>
-                        <div>
-                            <button className="rounded-1 btn btn-outline-light rounded-1"><i
-                                className="bi bi-arrow-right-circle-fill"></i></button>
-                        </div>
+                        {/*<div className="mx-4 w-25"><input*/}
+                        {/*    className="h-100 w-100 rounded-1 bg-light-subtle border-1 border-light"/>*/}
+                        {/*</div>*/}
+                        {/*<div>*/}
+                        {/*    <button className="rounded-1 btn btn-outline-light rounded-1"><i*/}
+                        {/*        className="bi bi-arrow-right-circle-fill"></i></button>*/}
+                        {/*</div>*/}
                     </div>
                     <div className="row">
                         {listProducts.map(product => (
@@ -270,7 +270,7 @@ export default function AllProducts() {
                     />
                 </div>
             </div>
-            <Footer></Footer>
+
 
 
         </>

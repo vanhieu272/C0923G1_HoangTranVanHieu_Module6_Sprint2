@@ -6,7 +6,6 @@ export default function SizeGuide(){
 
     return(
         <>
-            <HeaderSalesPage></HeaderSalesPage>
             <div className="container">
                 <main id="page-content">
                     <div id="shopify-section-template--16974611906729__main" className="shopify-section"><div className="central content py-medium">
@@ -50,7 +49,6 @@ export default function SizeGuide(){
                     <aside className="faq-sidebar" id="faq-sidebar" data-cc-animate></aside>
                 </main>
             </div>
-            <Footer></Footer>
         </>
     )
 }

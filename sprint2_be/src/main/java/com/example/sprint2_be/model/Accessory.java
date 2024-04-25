@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -47,7 +48,7 @@ public class Accessory {
     List<Image> imageList;
 
 
-
-
+    @OneToMany(mappedBy = "accessory")
+    List<AccessorySize> accessorySizeList;
 
 }

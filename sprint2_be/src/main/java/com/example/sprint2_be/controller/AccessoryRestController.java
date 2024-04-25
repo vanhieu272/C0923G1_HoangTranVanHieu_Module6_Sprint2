@@ -24,7 +24,6 @@ public class AccessoryRestController {
     public ResponseEntity<Page<Accessory>> getAccessory (@RequestParam(required = false) String name,
                                                          @RequestParam(required = false, defaultValue = "0") Float minPrice,
                                                          @RequestParam(required = false, defaultValue = "9999999999") Float maxPrice,
-                                                         @RequestParam(required = false) String category,
                                                          @RequestParam(required = false) String size,
                                                          @RequestParam(defaultValue = "0") int page,
                                                          @RequestParam(defaultValue = "1") int pageSize){
@@ -32,7 +31,7 @@ public class AccessoryRestController {
         if(name != null){
             name = name.trim();
         }
-        Page<Accessory> accessoryPage = accessoryService.searchAccessory(name, minPrice, maxPrice, category, size, pageable);
+        Page<Accessory> accessoryPage = accessoryService.searchAccessory(name, minPrice, maxPrice, size, pageable);
         if(accessoryPage.getTotalPages() > 0){
             return ResponseEntity.ok().body(accessoryPage);
         }else {
@@ -57,5 +56,6 @@ public class AccessoryRestController {
         }
         return new ResponseEntity<>(listFeatureAccessory, HttpStatus.OK);
     }
+
 
 }
