@@ -1,5 +1,6 @@
 package com.example.sprint2_be.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,10 +29,11 @@ public class Accessory {
 
     private Integer quantity;
 
-    @Column(columnDefinition = "0")
+    @Column(columnDefinition = "int default 0")
     private Integer sold;
 
-    private String size;
+    @Column(columnDefinition = "int default 0")
+    private Integer discount;
 
     @Column(columnDefinition = "LONGTEXT", length = 1500)
     private String description;
@@ -49,6 +51,7 @@ public class Accessory {
 
 
     @OneToMany(mappedBy = "accessory")
+    @JsonBackReference
     List<AccessorySize> accessorySizeList;
 
 }

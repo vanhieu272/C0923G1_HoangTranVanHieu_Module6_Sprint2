@@ -43,9 +43,32 @@ h2{
     color: #FEB31F!important;
 }
 
-.search-row{
-    background: #282828;
-    z-index: 10;
-    position: sticky;
-    top: 10%;
+
+
+.scroll-price {
+    background-color: inherit !important;
+    outline-color: white;
+    border: solid 1px #6e6b6b;
+    color: white;
+    line-height: 200%;
 }
+
+#note{
+    color: #FEB31F;
+}
+
+#note:hover{
+    color: #ffc249;
+}
+
+#sticky-search{
+    position: sticky !important;
+    top: 100px !important;
+
+}
+
+#scroll-search{
+    flex: 1 !important;
+    overflow-y: auto !important;
+}
+

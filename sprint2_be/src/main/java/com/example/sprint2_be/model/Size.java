@@ -1,5 +1,6 @@
 package com.example.sprint2_be.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class Size {
     private String name;
 
     @OneToMany(mappedBy = "size")
+    @JsonBackReference
     List<AccessorySize> accessorySizes;
     
 }

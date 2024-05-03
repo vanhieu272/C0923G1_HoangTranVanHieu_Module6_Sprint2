@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -20,23 +21,14 @@ public class AccessoryRestController {
     @Autowired
     IAccesoryService accessoryService;
 
-    @GetMapping("/search")
-    public ResponseEntity<Page<Accessory>> getAccessory (@RequestParam(required = false) String name,
-                                                         @RequestParam(required = false, defaultValue = "0") Float minPrice,
-                                                         @RequestParam(required = false, defaultValue = "9999999999") Float maxPrice,
-                                                         @RequestParam(required = false) String size,
-                                                         @RequestParam(defaultValue = "0") int page,
-                                                         @RequestParam(defaultValue = "1") int pageSize){
-        Pageable pageable = PageRequest.of(page, pageSize);
-        if(name != null){
-            name = name.trim();
+
+    @GetMapping("/find/{id}")
+    public ResponseEntity<Optional<Accessory>> findById(@PathVariable("id") Integer id){
+        Optional<Accessory> accessory = accessoryService.findById(id);
+        if(accessory == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Page<Accessory> accessoryPage = accessoryService.searchAccessory(name, minPrice, maxPrice, size, pageable);
-        if(accessoryPage.getTotalPages() > 0){
-            return ResponseEntity.ok().body(accessoryPage);
-        }else {
-            return ResponseEntity.noContent().build();
-        }
+        return new ResponseEntity<>(accessory, HttpStatus.OK);
     }
 
     @GetMapping("/getNewAccessory")

@@ -22,7 +22,7 @@ public class BillDetail {
 
     @ManyToOne
     @JoinColumn
-    private Accessory accessory;
+    private AccessorySize accessorySize;
 
     @ManyToOne
     @JoinColumn

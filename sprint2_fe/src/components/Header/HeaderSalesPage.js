@@ -3,15 +3,34 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./HeaderSalesPage.css";
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from "react-bootstrap/Form";
+import Search from "../../components/Products/Search/Search";
+import * as service from "../../service/AccessoryService";
+import {Link, redirect, useNavigate} from "react-router-dom";
+import {useSearchTermContext} from "../Products/Search/SearchTermContext";
 
 export default function HeaderSalesPage() {
     const values = [true];
     const [fullscreen, setFullscreen] = useState(true);
     const [show, setShow] = useState(false);
+
+    // const [searchTerm, setSearchTerm] = useState("");
+    const navigate = useNavigate();
+
+    const { searchTerm, setSearchTerm } = useSearchTermContext();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setShow(false);
+        navigate("/search");
+    }
+
+    const handleChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
 
 
     function handleShow(breakpoint) {
@@ -24,7 +43,7 @@ export default function HeaderSalesPage() {
 
                 <Navbar expand="xxl" className="bg-black sticky-lg-top sticky-lg-top sticky-sm-top">
                     <Container>
-                        <Navbar.Brand href="/homepage"><img width="100%" height="50px" src="https://heliosjewels.vn/cdn/shop/files/logo_500x.png?v=1652960279" alt="logo"/></Navbar.Brand>
+                        <Navbar.Brand href="/"><img width="100%" height="50px" src="https://heliosjewels.vn/cdn/shop/files/logo_500x.png?v=1652960279" alt="logo"/></Navbar.Brand>
                         <Navbar.Toggle id="toggle-menu" aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-center">
                             <Nav>
@@ -68,9 +87,16 @@ export default function HeaderSalesPage() {
                     </div>
                     <div className="mt-2 row d-flex justify-content-center align-items-center">
                         <div className="col-lg-6 input-wrapper">
-                            <Form>
-                                <input type="text" className="rounded-0" placeholder="Type to search..." style={{width: '100%', height: '50px', border: 'none', borderBottom: 'solid 1px white', backgroundColor: 'transparent', color: 'white', fontSize:'24px', paddingLeft: '16px' }} />
-                                <button type="submit" style={{marginRight: '8px', height: '100%', color: 'white', fontSize: '32px'}}><i className="bi bi-arrow-right"></i></button>
+                            <Form onSubmit={handleSubmit}>
+                                <input
+                                    type="text"
+                                    className="rounded-0"
+                                    placeholder="Type to search..."
+                                    style={{ width: '100%', height: '50px', border: 'none', borderBottom: 'solid 1px white', backgroundColor: 'transparent', color: 'white', fontSize: '24px', paddingLeft: '16px' }}
+                                    value={searchTerm}
+                                    onChange={handleChange}
+                                />
+                                <button onClick={handleSubmit} type="button" style={{ marginRight: '8px', height: '100%', color: 'white', fontSize: '32px' }}><i className="bi bi-arrow-right"></i></button>
                             </Form>
                         </div>
                     </div>

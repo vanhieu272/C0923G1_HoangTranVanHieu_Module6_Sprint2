@@ -16,12 +16,12 @@ public class AccessorySize {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String name;
-
     @ManyToOne
+    @JoinColumn
     private Accessory accessory;
 
     @ManyToOne
+    @JoinColumn
     private Size size;
 
 }

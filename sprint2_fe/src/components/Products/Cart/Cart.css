@@ -17,6 +17,12 @@
     outline: none;
 }
 
+@media screen and (max-width: 768px) {
+    .cart-quantity{
+        width: 50%;
+    }
+}
+
 .btn-quantity{
     background-color: inherit;
     border: 0;
@@ -52,7 +58,21 @@ table tr td{
     overflow-y: auto ;
 }
 
-#sticky-col{
+#sticky-col {
     position: sticky;
     top: 90px;
+    margin-bottom: 36px;
+    border-radius: 12px;
+    box-shadow: rgba(82, 82, 82, 0.3) 0px 38px 76px, rgba(73, 73, 73, 0.44) 0px 30px 24px;
+}
+
+#sticky-col input{
+    background: none;
+    border: none;
+    border-bottom: 1px solid #818181;
+    color: white;
+}
+
+#sticky-col input:focus{
+    outline: none;
 }

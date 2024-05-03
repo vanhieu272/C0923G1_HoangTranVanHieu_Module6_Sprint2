@@ -1,19 +1,57 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Carousel from "react-bootstrap/Carousel";
 import "./ProductDetail.css";
-import HeaderSalesPage from "../../Header/HeaderSalesPage";
-import {Link} from "react-router-dom";
-import Footer from "../../Foooter/Footer";
+import {Link, useParams} from "react-router-dom";
+import * as service from "../../../service/AccessoryService";
+import LoadingData from "../../LoadingData/LoadingData";
+
 
 export default function ProductDetail() {
 
+    const {id} = useParams();
+    const [product, setProduct] = useState();
+    const [listSizes, setListSizes] = useState([])
     const [imgIndex, setImgIndex] = useState(0);
+    const [imagePaths, setImagePaths] = useState([]);
+
+
+    const USD = new Intl.NumberFormat('US', {
+        style: 'decimal', // Sử dụng kiểu số thập phân
+        minimumFractionDigits: 2, // Số lượng số thập phân tối thiểu là 0
+        maximumFractionDigits: 2, // Số lượng số thập phân tối đa cũng là 0
+    });
+
+
 
     const handleSelectImage = (selectedIndex) => {
         setImgIndex(selectedIndex);
     };
-    const imagePaths = ["https://heliosglobalbrand.com/cdn/shop/files/S925SilverRingREDDEVILRINGHeliosSilver_3_900x.jpg?v=1690885599"
-        , "https://heliosglobalbrand.com/cdn/shop/files/S925SilverRingREDDEVILRINGHeliosSilver_5_900x.jpg?v=1690885599"];
+    const findProductById = async () => {
+        const rs = await service.findAccessoryById(id);
+        setProduct(rs);
+        console.log(rs)
+        setImagePaths(rs.imageList)
+    }
+
+    useEffect(() => {
+        findProductById();
+    }, []);
+
+    const getAllSize = async () => {
+        const rs = await service.getAllSize();
+        console.log(rs);
+        setListSizes(rs);
+    }
+
+    useEffect(() => {
+        getAllSize();
+    }, []);
+
+    if (product == null) {
+        return <div>
+            <LoadingData></LoadingData>
+        </div>
+    }
 
     return (
         <>
@@ -28,7 +66,7 @@ export default function ProductDetail() {
                                 <Carousel.Item key={i}>
                                     <img
                                         className="d-block w-100"
-                                        src={imagePath}
+                                        src={imagePath.linkImg}
                                         alt="product"
                                     />
                                 </Carousel.Item>
@@ -44,7 +82,7 @@ export default function ProductDetail() {
                                     >
                                         <img
                                             className="mx-3 shadow rounded-1"
-                                            src={imagePath}
+                                            src={imagePath.linkImg}
                                             style={{ width: '100px', height: '100px' }}
                                             alt="product"
                                         />
@@ -58,8 +96,8 @@ export default function ProductDetail() {
                     </div>
                     <div className="col-lg-5 col-md-12 col-sm-12">
                         <h6 className="opacity-75 mt-0 mb-3">Helios's Accessory</h6>
-                        <h3 className="my-3">Helios Lotus Spring Ring </h3>
-                        <h5 className="my-3" style={{color: '#FEB31F'}}>$314</h5>
+                        <h3 className="my-3">{product.name}</h3>
+                        <h5 className="my-3" style={{color: '#FEB31F'}}>${USD.format(product.price)}</h5>
 
 
                         <div className="row mt-5 justify-content-space-between ">

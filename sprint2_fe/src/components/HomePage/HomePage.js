@@ -78,43 +78,46 @@ export default function HomePage() {
             {/*Sản phẩm nổi bật */}
             <div className="container mt-5" id="outstanding-products">
                 <h2 className="py-4 text-uppercase">FEATURED PRODUCTS</h2>
-                <Carousel controls={true} indicators={false}>
-                    <Carousel.Item>
-                        <div className="d-flex">
-                            {listFeatureProducts.map(product => (
-                                <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 p-2">
-                                    <Card key={product.id} className="border-0">
-                                       <div className="image-container">
-                                            <Link to="#">
-                                                <Card.Img variant="top" className="rounded-0" src={product.thumbnailImg}/>
-                                            </Link>
-                                        </div>
-                                        <Card.Body className="bg-black text-light">
-                                            {/*<Card.Title>{card.title}</Card.Title>*/}
-                                            <Card.Title className="fw-bold">{product.name}</Card.Title>
-                                            <Card.Subtitle className="product-price">Price: {product.price} $</Card.Subtitle>
-                                            <div className="row d-flex mt-2">
-                                                <div className="col-5">
-                                                    <p style={{
-                                                        fontSize: '20px'
-                                                    }}>Sold: {product.sold}</p>
-                                                </div>
-                                                <div className="col-7">
-                                                    {product.quantity === 0 ? (
-                                                        <Button variant="outline-light"
-                                                                className="w-100 border-2 border-white" disabled>Sold out <i className="bi bi-backspace-fill"></i></Button>
-                                                    ) : (
-                                                        <Button variant="outline-light"
-                                                                className="w-100 border-2 border-white">Add to cart <i className="bi bi-plus-circle"></i></Button>
-                                                    )}
-                                                </div>
+                <Carousel controls={true} indicators={false} interval={null} wrap={true} pause={false}>
+                    {listFeatureProducts.reduce((acc, product, index) => {
+                        if (index % 4 === 0) {
+                            acc.push([]);
+                        }
+                        acc[acc.length - 1].push(product);
+                        return acc;
+                    }, []).map((group, groupIndex) => (
+                        <Carousel.Item key={groupIndex}>
+                            <div className="row d-flex">
+                                {group.map(product => (
+                                    <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 p-2" key={product.id}>
+                                        <Card className="border-0">
+                                            <div className="image-container">
+                                                <Link to="#">
+                                                    <Card.Img variant="top" className="rounded-0" src={product.thumbnailImg}/>
+                                                </Link>
                                             </div>
-                                        </Card.Body>
-                                    </Card>
-                                </div>
-                            ))}
-                        </div>
-                    </Carousel.Item>
+                                            <Card.Body className="bg-black text-light">
+                                                <Card.Title className="fw-bold">{product.name}</Card.Title>
+                                                <Card.Subtitle className="product-price">Price: {product.price} $</Card.Subtitle>
+                                                <div className="row d-flex mt-2">
+                                                    <div className="col-5">
+                                                        <p style={{fontSize: '20px'}}>Sold: {product.sold}</p>
+                                                    </div>
+                                                    <div className="col-7">
+                                                        {product.quantity === 0 ? (
+                                                            <Button variant="outline-light" className="w-100 border-2 border-white" disabled>Sold out <i className="bi bi-backspace-fill"></i></Button>
+                                                        ) : (
+                                                            <Button variant="outline-light" className="w-100 border-2 border-white">Add to cart <i className="bi bi-plus-circle"></i></Button>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </Card.Body>
+                                        </Card>
+                                    </div>
+                                ))}
+                            </div>
+                        </Carousel.Item>
+                    ))}
                 </Carousel>
 
             </div>
@@ -122,47 +125,47 @@ export default function HomePage() {
             {/*Sản phẩm mới*/}
             <div className="container mt-5" id="outstanding-products">
                 <h2 className="py-4 text-uppercase">LATEST PRODUCTS</h2>
-                <Carousel controls={true} indicators={false}>
-                        <Carousel.Item>
-                            <div className="d-flex">
-                                {listNewProducts.map(product => (
-                                    <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 p-2">
-                                            <Card key={product.id} className="border-0">
-                                                <div className="image-container">
-                                                   <Link to="#">
-                                                       <Card.Img variant="top" className="rounded-0" src={product.thumbnailImg}/>
-                                                   </Link>
-                                                </div>
-                                                <Card.Body className="bg-black text-light">
-                                                    <Card.Title className="fw-bold">{product.name}</Card.Title>
-                                                    <Card.Subtitle className="product-price">Price: {product.price} $</Card.Subtitle>
-                                                    <div className="row d-flex mt-2">
-                                                        <div className="col-5">
-                                                           <p style={{
-                                                               fontSize: '20px'
-                                                           }}>Sold: {product.sold}</p>
-                                                        </div>
-                                                        <div className="col-7">
-                                                            {product.quantity === 0 ? (
-                                                                <Button variant="outline-light"
-                                                                        className="w-100 border-2 border-white" disabled>Sold out <i className="bi bi-backspace-fill"></i></Button>
-                                                            ) : (
-                                                                <Button variant="outline-light"
-                                                                        className="w-100 border-2 border-white">Add to cart <i className="bi bi-plus-circle"></i></Button>
-                                                            )}
-                                                        </div>
+                <Carousel controls={true} indicators={false} interval={null} wrap={true} pause={false}>
+                    {listNewProducts.reduce((acc, product, index) => {
+                        if (index % 4 === 0) {
+                            acc.push([]);
+                        }
+                        acc[acc.length - 1].push(product);
+                        return acc;
+                    }, []).map((group, groupIndex) => (
+                        <Carousel.Item key={groupIndex}>
+                            <div className="row d-flex">
+                                {group.map(product => (
+                                    <div className="col-lg-3 col-md-6 col-sm-12 col-xs-12 p-2" key={product.id}>
+                                        <Card className="border-0">
+                                            <div className="image-container">
+                                                <Link to="#">
+                                                    <Card.Img variant="top" className="rounded-0" src={product.thumbnailImg}/>
+                                                </Link>
+                                            </div>
+                                            <Card.Body className="bg-black text-light">
+                                                <Card.Title className="fw-bold">{product.name}</Card.Title>
+                                                <Card.Subtitle className="product-price">Price: {product.price} $</Card.Subtitle>
+                                                <div className="row d-flex mt-2">
+                                                    <div className="col-5">
+                                                        <p style={{fontSize: '20px'}}>Sold: {product.sold}</p>
                                                     </div>
-                                                </Card.Body>
-                                            </Card>
+                                                    <div className="col-7">
+                                                        {product.quantity === 0 ? (
+                                                            <Button variant="outline-light" className="w-100 border-2 border-white" disabled>Sold out <i className="bi bi-backspace-fill"></i></Button>
+                                                        ) : (
+                                                            <Button variant="outline-light" className="w-100 border-2 border-white">Add to cart <i className="bi bi-plus-circle"></i></Button>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </Card.Body>
+                                        </Card>
                                     </div>
                                 ))}
                             </div>
                         </Carousel.Item>
+                    ))}
                 </Carousel>
-
-                {/*Sản phẩm mới*/}
-
-
                 <div style={{height: "300px", border: "2px solid white"}} className="row my-5 bg-dark mx-1 ">
                     <div className="text-center d-flex col-lg-5 col-md-12 align-items-center justify-content-center">
                         <div>
