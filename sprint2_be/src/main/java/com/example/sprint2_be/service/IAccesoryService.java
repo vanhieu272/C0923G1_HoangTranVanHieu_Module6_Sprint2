@@ -9,9 +9,4 @@ public interface IAccesoryService {
 
    Optional<Accessory> findById(Integer id);
 
-   List<Accessory> getNewAccessory();
-
-   List<Accessory>getFeatureAccessory();
-
-//    Page<Accessory> searchByNameOrCategory(String name);
 }

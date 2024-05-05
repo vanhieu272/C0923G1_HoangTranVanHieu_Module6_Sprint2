@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccessorySizeService implements IAccessorySizeService {
@@ -49,7 +50,7 @@ public class AccessorySizeService implements IAccessorySizeService {
             }
 
             if (minPrice != null && maxPrice != null) {
-                predicates.add(criteriaBuilder.between(root.get("accessory").get("price"), minPrice, maxPrice));
+                predicates.add(criteriaBuilder.between(root.get("price"), minPrice, maxPrice));
             }
 
             if(categoryName!=null){
@@ -60,5 +61,20 @@ public class AccessorySizeService implements IAccessorySizeService {
         };
 
         return accessorySizeRepository.findAll(spec, pageable);
+    }
+
+    @Override
+    public List<AccessorySize> getListSizesByAccessoryId(Integer id) {
+        return accessorySizeRepository.getListSizesByAccessoryId(id);
+    }
+
+    @Override
+    public List<AccessorySize> getLatestAccessory() {
+        return accessorySizeRepository.getLatestAccessory();
+    }
+
+    @Override
+    public List<AccessorySize> getFeatureAccessory() {
+        return accessorySizeRepository.getFeatureAccessory();
     }
 }

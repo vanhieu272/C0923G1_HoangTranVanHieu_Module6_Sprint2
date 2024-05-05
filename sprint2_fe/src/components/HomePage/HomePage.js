@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import "./HomePage.css";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button'
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Footer from "../Foooter/Footer";
 import {Link} from "react-router-dom";
 import * as service from "../../service/AccessoryService";
@@ -93,23 +93,19 @@ export default function HomePage() {
                                         <Card className="border-0">
                                             <div className="image-container">
                                                 <Link to="#">
-                                                    <Card.Img variant="top" className="rounded-0" src={product.thumbnailImg}/>
+                                                    <Card.Img variant="top" className="rounded-0" src={product.accessory.thumbnailImg}/>
                                                 </Link>
                                             </div>
                                             <Card.Body className="bg-black text-light">
-                                                <Card.Title className="fw-bold">{product.name}</Card.Title>
-                                                <Card.Subtitle className="product-price">Price: {product.price} $</Card.Subtitle>
-                                                <div className="row d-flex mt-2">
-                                                    <div className="col-5">
-                                                        <p style={{fontSize: '20px'}}>Sold: {product.sold}</p>
-                                                    </div>
-                                                    <div className="col-7">
-                                                        {product.quantity === 0 ? (
-                                                            <Button variant="outline-light" className="w-100 border-2 border-white" disabled>Sold out <i className="bi bi-backspace-fill"></i></Button>
-                                                        ) : (
-                                                            <Button variant="outline-light" className="w-100 border-2 border-white">Add to cart <i className="bi bi-plus-circle"></i></Button>
-                                                        )}
-                                                    </div>
+                                                <Card.Title className="fw-bold">{product.accessory.name}</Card.Title>
+                                                <Card.Subtitle className="product-price">From {product.price} $</Card.Subtitle>
+                                                <div className="row d-flex mt-4">
+                                                    <div className="col-12">
+                                                        <Link to={`/detail/${product.accessory.id}`}>
+                                                            <Button variant="outline-light"
+                                                                    className="w-100 border-2 border-white">Add to cart <i
+                                                                className="bi bi-plus-circle"></i></Button>
+                                                        </Link>                                                    </div>
                                                 </div>
                                             </Card.Body>
                                         </Card>
@@ -140,22 +136,20 @@ export default function HomePage() {
                                         <Card className="border-0">
                                             <div className="image-container">
                                                 <Link to="#">
-                                                    <Card.Img variant="top" className="rounded-0" src={product.thumbnailImg}/>
+                                                    <Card.Img variant="top" className="rounded-0" src={product.accessory.thumbnailImg}/>
                                                 </Link>
                                             </div>
                                             <Card.Body className="bg-black text-light">
-                                                <Card.Title className="fw-bold">{product.name}</Card.Title>
-                                                <Card.Subtitle className="product-price">Price: {product.price} $</Card.Subtitle>
-                                                <div className="row d-flex mt-2">
-                                                    <div className="col-5">
-                                                        <p style={{fontSize: '20px'}}>Sold: {product.sold}</p>
-                                                    </div>
-                                                    <div className="col-7">
-                                                        {product.quantity === 0 ? (
-                                                            <Button variant="outline-light" className="w-100 border-2 border-white" disabled>Sold out <i className="bi bi-backspace-fill"></i></Button>
-                                                        ) : (
-                                                            <Button variant="outline-light" className="w-100 border-2 border-white">Add to cart <i className="bi bi-plus-circle"></i></Button>
-                                                        )}
+                                                <Card.Title className="fw-bold">{product.accessory.name}</Card.Title>
+                                                <Card.Subtitle className="product-price">From: {product.price} $</Card.Subtitle>
+                                                <div className="row d-flex mt-4">
+                                                    <div className="col-12">
+                                                        <Link to={`/detail/${product.accessory.id}`}>
+                                                            <Button variant="outline-light"
+                                                                    className="w-100 border-2 border-white">Add to cart <i
+                                                                className="bi bi-plus-circle"></i></Button>
+                                                        </Link>
+
                                                     </div>
                                                 </div>
                                             </Card.Body>

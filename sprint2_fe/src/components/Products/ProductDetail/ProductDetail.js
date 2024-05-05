@@ -9,10 +9,17 @@ import LoadingData from "../../LoadingData/LoadingData";
 export default function ProductDetail() {
 
     const {id} = useParams();
-    const [product, setProduct] = useState();
+    // const [product, setProduct] = useState();
+    const [listProducts, setListProducts] = useState();
     const [listSizes, setListSizes] = useState([])
     const [imgIndex, setImgIndex] = useState(0);
     const [imagePaths, setImagePaths] = useState([]);
+    const [selectedSize, setSelectedSize] = useState(null);
+
+    const handleSizeChange = (event) => {
+        const selectedSize = event.target.value;
+        setSelectedSize(selectedSize);
+    };
 
 
     const USD = new Intl.NumberFormat('US', {
@@ -26,31 +33,24 @@ export default function ProductDetail() {
     const handleSelectImage = (selectedIndex) => {
         setImgIndex(selectedIndex);
     };
-    const findProductById = async () => {
+    const findProductsById = async () => {
         const rs = await service.findAccessoryById(id);
-        setProduct(rs);
+        setListProducts(rs);
         console.log(rs)
-        setImagePaths(rs.imageList)
+        setImagePaths(rs[0].accessory.imageList)
     }
 
     useEffect(() => {
-        findProductById();
+        findProductsById();
     }, []);
 
-    const getAllSize = async () => {
-        const rs = await service.getAllSize();
-        console.log(rs);
-        setListSizes(rs);
-    }
 
-    useEffect(() => {
-        getAllSize();
-    }, []);
 
-    if (product == null) {
-        return <div>
+    if (listProducts == null) {
+        return(
+        <div>
             <LoadingData></LoadingData>
-        </div>
+        </div>)
     }
 
     return (
@@ -96,8 +96,8 @@ export default function ProductDetail() {
                     </div>
                     <div className="col-lg-5 col-md-12 col-sm-12">
                         <h6 className="opacity-75 mt-0 mb-3">Helios's Accessory</h6>
-                        <h3 className="my-3">{product.name}</h3>
-                        <h5 className="my-3" style={{color: '#FEB31F'}}>${USD.format(product.price)}</h5>
+                        <h3 className="my-3">{listProducts[0].accessory.name}</h3>
+                        <h5 className="my-3" style={{color: '#FEB31F'}}>${USD.format(listProducts.find(item => item.size.name === selectedSize)?.price || listProducts[0].price)}</h5>
 
 
                         <div className="row mt-5 justify-content-space-between ">
@@ -105,22 +105,17 @@ export default function ProductDetail() {
                             <div className="col-lg-6 col-md-12 col-sm-12 text-end"><Link className="text-decoration-none text-white fs-5 pe-0" to={"/guide"}>Size guide</Link></div>
                         </div>
                         <div className="row mt-3 mx-0">
-                            <select id="select-size" multiple>
-                                <option selected value="10">Size 5</option>
-                                <option value="11">Size 6</option>
-                                <option value="12">Size 7</option>
-                                <option value="13">Size 8</option>
-                                <option value="14">Size 9</option>
-                                <option value="15">Size 10</option>
-                                <option value="16">Size 11</option>
-                                <option value="17">Size 12</option>
-                                <option value="18">Size 13</option>
-                                <option value="19">Size 14</option>
-                                <option value="20">Size 15</option>
+                            <select id="select-size" onChange={handleSizeChange} multiple>
+                                {
+                                    listProducts && listProducts.map((item) => (
+                                            <option key={item.id} value={item.size.name}>{item.size.name}</option>
+                                        )
+                                    )
+                                }
                             </select>
                         </div>
                         <div className="row mt-3">
-                            <p className="fs-5">In stock: 13</p>
+                            <p className="fs-5">In stock: {listProducts.find(item => item.size.name === selectedSize)?.quantity || listProducts[0].quantity}</p>
                         </div>
                         <div className="row mx-0 d-flex justify-content-between">
                             <div className="col-lg-3 col-md-12 col-sm-12 p-0">
@@ -142,17 +137,8 @@ export default function ProductDetail() {
                         </div>
                         <div className="row mt-3">
                             <h5 className="text-light mb-3">Description</h5>
-                            <p>
-                                Material: S925 Silver <br/>
-
-                                Stone: CZ Stone <br/>
-
-                                Warranty: All of our jewelry products come with a lifetime warranty. <br/>
-                                <br/>
-                                Note: <br/>
-
-                                Custom Printed Packaging Box - Style and Personality - Only at Helios Global <br/>
-                                On the lid of packaging box, we will print sincere expressions of gratitude, best wishes, names, quotes, and more, according to your request. We believe that this will make the box an unique item to accompany you through the years or a meaningful gift for your loved ones and friends. <br/>
+                            <p style={{whiteSpace: 'pre-line'}}>
+                                {listProducts[0].accessory.description}
                             </p>
                         </div>
                     </div>

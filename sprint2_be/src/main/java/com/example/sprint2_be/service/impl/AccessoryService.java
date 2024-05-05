@@ -19,15 +19,8 @@ public class AccessoryService implements IAccesoryService {
         return accessoryRepository.findById(id);
     }
 
-    @Override
-    public List<Accessory> getNewAccessory(){
-        return accessoryRepository.getNewAccessory();
-    }
 
-    @Override
-    public List<Accessory> getFeatureAccessory() {
-        return accessoryRepository.getFeatureAccessory();
-    }
+
 
 //    @Override
 //    public Page<Accessory> searchByNameOrCategory(String name) {

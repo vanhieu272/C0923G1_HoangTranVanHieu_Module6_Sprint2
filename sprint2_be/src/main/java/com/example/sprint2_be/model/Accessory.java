@@ -25,16 +25,6 @@ public class Accessory {
 
     private LocalDate releaseDay;
 
-    private Double price;
-
-    private Integer quantity;
-
-    @Column(columnDefinition = "int default 0")
-    private Integer sold;
-
-    @Column(columnDefinition = "int default 0")
-    private Integer discount;
-
     @Column(columnDefinition = "LONGTEXT", length = 1500)
     private String description;
 

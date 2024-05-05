@@ -31,23 +31,4 @@ public class AccessoryRestController {
         return new ResponseEntity<>(accessory, HttpStatus.OK);
     }
 
-    @GetMapping("/getNewAccessory")
-    public ResponseEntity<List<Accessory>> getNew(){
-        List<Accessory> listNewAccessory = accessoryService.getNewAccessory();
-        if(listNewAccessory == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(listNewAccessory, HttpStatus.OK);
-    }
-
-    @GetMapping("/getFeatureAccessory")
-    public ResponseEntity<List<Accessory>> getFeature(){
-        List<Accessory> listFeatureAccessory = accessoryService.getFeatureAccessory();
-        if(listFeatureAccessory == null){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(listFeatureAccessory, HttpStatus.OK);
-    }
-
-
 }

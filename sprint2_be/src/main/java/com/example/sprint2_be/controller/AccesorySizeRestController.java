@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("api/helios")
@@ -19,27 +22,6 @@ public class AccesorySizeRestController {
     @Autowired
     IAccessorySizeService accessorySizeService;
 
-//    @GetMapping("/search")
-//    public ResponseEntity<Page<AccessorySize>> searchAccessory(
-//            @RequestParam(required = false, defaultValue = "") String name,
-//            @RequestParam(required = false, defaultValue = "0") Float minPrice,
-//            @RequestParam(required = false, defaultValue = "9999999999") Float maxPrice,
-//            @RequestParam(required = false, defaultValue = "1") Integer sizeId,
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "9") int pageSize){
-//        Pageable pageable = PageRequest.of(page, pageSize);
-//        name = name.trim();
-//        if(name.length() > 50){
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//        Page<AccessorySize> accessoryPage = accessorySizeService.searchAccessory(name, minPrice, maxPrice, sizeId, pageable);
-//        if(accessoryPage.getTotalPages() > 0){
-//            return ResponseEntity.ok().body(accessoryPage);
-//        }else {
-//            return ResponseEntity.noContent().build();
-//        }
-//    }
-//}
 
     @GetMapping("/search")
     public ResponseEntity<Page<AccessorySize>> searchAccessory(
@@ -54,9 +36,9 @@ public class AccesorySizeRestController {
         Pageable pageable;
         Sort.Direction direction = sortDirection.equalsIgnoreCase("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
         if (direction == Sort.Direction.ASC) {
-            pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Order.asc("accessory.price")));
+            pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Order.asc("price")));
         } else {
-            pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("accessory.price")));
+            pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Order.desc("price")));
         }
 
         name = name.trim();
@@ -69,5 +51,32 @@ public class AccesorySizeRestController {
         } else {
             return ResponseEntity.noContent().build();
         }
+    }
+
+  @GetMapping("/find/{id}")
+    public ResponseEntity<List<AccessorySize>> getListAccessoryByAccessoryId (@PathVariable("id") Integer id){
+        List<AccessorySize> accessorySizes = accessorySizeService.getListSizesByAccessoryId(id);
+        if(accessorySizes == null){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(accessorySizes, HttpStatus.OK);
+  }
+
+    @GetMapping("/getLatestAccessory")
+    public ResponseEntity<List<AccessorySize>> getLatest(){
+        List<AccessorySize> listNewAccessory = accessorySizeService.getLatestAccessory();
+        if(listNewAccessory == null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(listNewAccessory, HttpStatus.OK);
+    }
+
+    @GetMapping("/getFeatureAccessory")
+    public ResponseEntity<List<AccessorySize>> getFeature(){
+        List<AccessorySize> listFeature = accessorySizeService.getFeatureAccessory();
+        if(listFeature == null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(listFeature, HttpStatus.OK);
     }
 }

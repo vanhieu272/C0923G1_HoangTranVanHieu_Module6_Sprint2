@@ -205,25 +205,14 @@ export default function Search() {
                                                 <Card.Body className="bg-black text-light">
                                                     <Card.Title>{product.accessory.name}</Card.Title>
                                                     <Card.Subtitle
-                                                        className="product-price">Price: {USD.format(product.accessory.price)}$</Card.Subtitle>
-                                                    <div className="row d-flex mt-2">
-                                                        <div className="col-5">
-                                                            <p style={{
-                                                                fontSize: '20px'
-                                                            }}>Sold: {product.accessory.sold}</p>
-                                                        </div>
-                                                        <div className="col-7">
-                                                            {product.accessory.quantity === 0 ? (
-                                                                <Button variant="outline-light"
-                                                                        className="w-100 border-2 border-white" disabled>Sold
-                                                                    out <i className="bi bi-backspace-fill"></i></Button>
-                                                            ) : (
+                                                        className="product-price">From: {USD.format(product.price)}$</Card.Subtitle>
+                                                    <div className="row d-flex mt-4">
+                                                        <div className="col-12">
                                                                 <Link to={`/detail/${product.accessory.id}`}>
                                                                     <Button variant="outline-light"
                                                                             className="w-100 border-2 border-white">Add to cart <i
                                                                         className="bi bi-plus-circle"></i></Button>
                                                                 </Link>
-                                                            )}
                                                         </div>
                                                     </div>
                                                 </Card.Body>
