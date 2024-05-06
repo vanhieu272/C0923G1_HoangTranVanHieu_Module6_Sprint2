@@ -16,4 +16,6 @@ public interface IAccessorySizeService {
     List<AccessorySize> getLatestAccessory();
 
     List<AccessorySize> getFeatureAccessory();
+
+    AccessorySize getAccessorySize(Integer id);
 }

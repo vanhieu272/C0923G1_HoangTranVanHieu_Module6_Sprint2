@@ -4,16 +4,18 @@ import com.example.sprint2_be.model.Accessory;
 import com.example.sprint2_be.model.AccessorySize;
 import com.example.sprint2_be.repository.IAccessorySizeRepository;
 import com.example.sprint2_be.service.IAccessorySizeService;
-import jakarta.persistence.criteria.Predicate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class AccessorySizeService implements IAccessorySizeService {
@@ -76,5 +78,11 @@ public class AccessorySizeService implements IAccessorySizeService {
     @Override
     public List<AccessorySize> getFeatureAccessory() {
         return accessorySizeRepository.getFeatureAccessory();
+    }
+
+
+    @Override
+    public AccessorySize getAccessorySize(Integer id) {
+        return accessorySizeRepository.findById(id).orElse(null);
     }
 }

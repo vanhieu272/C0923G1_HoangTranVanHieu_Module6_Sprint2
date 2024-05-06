@@ -328,7 +328,7 @@
 .background-sign{
     position: fixed;
     top: 0px;
-    z-index: 1400;
+    z-index: 10;
     width: 100%;
 }
 

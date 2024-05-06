@@ -1,15 +1,99 @@
 import HeaderSalesPage from "../../Header/HeaderSalesPage";
 import Footer from "../../Foooter/Footer";
 import Table from 'react-bootstrap/Table';
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./Cart.css";
 import Form from "react-bootstrap/Form";
 import {Field, Formik} from "formik";
 import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
 import Swal from "sweetalert2";
+import * as service from "../../../service/AccessoryService";
 
 export default function Cart() {
+    const [quantity, setQuantity] = useState(1)
+    const [username, setUsername] = useState(localStorage.getItem("username"))
+    const [shoppingCart, setShoppingCart] = useState([])
+    const [totalPriceAll, setTotalPriceAll] = useState(0)
+    const [totalQuantity, setTotalQuantity] = useState(0)
+    const getCart = async () => {
+        try {
+            const result = await service.getShoppingcart()
+            await setShoppingCart(result)
+            setTotalQuantity(0)
+            setTotalPriceAll(0)
+            if (result != null) {
+                await result.map(async (val, index) => {
+                    await setTotalQuantity(total => total + val.quantity)
+                    await setTotalPriceAll(total => total + val.price)
+                })
+            }
+        } catch (error) {
+
+        }
+
+
+
+    }
+    const paymentt =async () => {
+        try {
+            const rs =await service.createOrder()
+            await getCart()
+            toast.success("Order success")
+        } catch (error) {
+            toast.error(error.response.data)
+        }
+
+    }
+
+    const payment = () => {
+        Swal.fire({
+            icon: "success",
+            title: `Do you want payment?`,
+            showCancelButton: true,
+            confirmButtonText: "Oke"
+        })
+            .then((rs) => {
+                if (rs.isConfirmed) {
+                    paymentt()
+                }
+            })
+
+    }
+    const editQuantity = async (val, id, vQuantity, sessionProduct) => {
+        if (vQuantity > 1 || val == 1) {
+            await service.setShoppingcart(val, id, sessionProduct);
+            getCart();
+        }
+
+    }
+    const deleteShoppingCart = async (id, idP) => {
+        await service.deleteShoppingcart(id, idP)
+        Swal.fire({
+            icon: "success",
+            title: "Delete Cart success",
+            timer: "3000"
+        })
+        getCart()
+    }
+    const deleteCart = async (id, name, idP) => {
+        Swal.fire({
+            icon: "warning",
+            title: `Do you want to remove a product named <span class='al'> ${name} </span> from the cart?`,
+            showCancelButton: true,
+            confirmButtonText: "Oke"
+        })
+            .then((rs) => {
+                if (rs.isConfirmed) {
+                    deleteShoppingCart(id, idP)
+                }
+            })
+    }
+    useEffect(() => {
+        document.title = "Shopping Cart";
+        window.scrollTo(0, 0)
+        getCart()
+    }, []);
 
 
     return (

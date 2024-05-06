@@ -1,24 +1,26 @@
 import {useEffect, useState} from "react";
 import {Link, useLocation, useNavigate, useParams} from "react-router-dom";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import * as service from "../../../service/AccessoryService";
 import React from "react";
 import Slider from "@mui/material/Slider";
-import LoadingData from "../../LoadingData/LoadingData";
+import "../Search/Search.css";
 import ReactPaginate from "react-paginate";
 
 
 export default function AllProducts() {
 
     const [listProducts, setListProducts] = useState([]);
+    const [name, setName] = useState("");
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(999999999);
+    const [category, setCategory] = useState("");
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [sizeId, setSizeId] = useState(1);
     const [sortDirection, setSortDirection] = useState("ASC");
+    const [listCategory, setListCategory] = useState([]);
     const [listSize, setListSize] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
@@ -35,7 +37,7 @@ export default function AllProducts() {
 
     const fetchApi = async () => {
         try {
-            const rs = await service.searchAccessory("", minPrice, maxPrice, sizeId, sortDirection, 0)
+            const rs = await service.searchAccessory("", minPrice, maxPrice, sizeId, category, sortDirection, 0)
             setListProducts(rs.content);
             setTotalPages(rs.totalPages);
         } catch (e) {
@@ -44,13 +46,14 @@ export default function AllProducts() {
     }
 
     useEffect(() => {
-        fetchApi("", minPrice, maxPrice, sizeId, sortDirection, 0)
+        fetchApi("", minPrice, maxPrice, sizeId, category, sortDirection, 0)
     }, []);
 
 
 
 
-    const [range, setRange] = useState([0, 5000]);
+
+    const [range, setRange] = useState([0, 500]);
     const handleChanges = (event, newValue) => {
         setRange(newValue);
         console.log(newValue, "newValue")
@@ -58,6 +61,7 @@ export default function AllProducts() {
     const handleMouseUp = () => {
         setMinPrice(range[0]);
         setMaxPrice(range[1]);
+        setCurrentPage(0);
     };
 
     // useEffect(() => {
@@ -72,6 +76,7 @@ export default function AllProducts() {
 
     const handleChangeSize = (event) => {
         setSizeId(parseInt(event.target.value));
+        setCurrentPage(0);
     }
 
     const handleChangeSort = (event) => {
@@ -92,7 +97,7 @@ export default function AllProducts() {
 
     const fetchData = async (page) => {
         try {
-            const result = await service.searchAccessory("", minPrice, maxPrice, sizeId, sortDirection, page);
+            const result = await service.searchAccessory("", minPrice, maxPrice, sizeId, category, sortDirection, page);
             setListProducts(result.content);
             setTotalPages(result.totalPages);
         } catch (e) {
@@ -112,7 +117,7 @@ export default function AllProducts() {
         <>
             <div className="container" style={{marginTop: "5%"}}>
 
-                <h2>ALL PRODUCTS</h2>
+                <h2>All Products</h2>
                 <hr className="text-light"/>
                 <div id="list-products" className="mt-5 row">
                     <div  className="col-lg-3 col-md-3 col-sm-0 pe-5">
@@ -130,8 +135,8 @@ export default function AllProducts() {
                                 onChange={handleChanges}
                                 onMouseUp={() => handleMouseUp()}
                                 min={0}
-                                max={5000}
-                                step={1}
+                                max={500}
+                                step={10}
                                 valueLabelDisplay='auto'
                                 color="light"
                             />
@@ -181,7 +186,7 @@ export default function AllProducts() {
                                         <div className="col-lg-4 col-md-6 col-sm-12 col-xs-12 my-3">
                                             <Card key={product.accessory.id} className="border-0">
                                                 <div className="image-container">
-                                                    <Link to="#">
+                                                    <Link to={`/detail/${product.accessory.id}`}>
                                                         <Card.Img variant="top" className="rounded-0"
                                                                   src={product.accessory.thumbnailImg}/>
                                                     </Link>
@@ -189,23 +194,14 @@ export default function AllProducts() {
                                                 <Card.Body className="bg-black text-light">
                                                     <Card.Title>{product.accessory.name}</Card.Title>
                                                     <Card.Subtitle
-                                                        className="product-price">Price: {USD.format(product.accessory.price)}$</Card.Subtitle>
-                                                    <div className="row d-flex mt-2">
-                                                        <div className="col-5">
-                                                            <p style={{
-                                                                fontSize: '20px'
-                                                            }}>Sold: {product.accessory.sold}</p>
-                                                        </div>
-                                                        <div className="col-7">
-                                                            {product.accessory.quantity === 0 ? (
-                                                                <Button variant="outline-light"
-                                                                        className="w-100 border-2 border-white" disabled>Sold
-                                                                    out <i className="bi bi-backspace-fill"></i></Button>
-                                                            ) : (
+                                                        className="product-price">From: {USD.format(product.price)}$</Card.Subtitle>
+                                                    <div className="row d-flex mt-4">
+                                                        <div className="col-12">
+                                                            <Link to={`/detail/${product.accessory.id}`}>
                                                                 <Button variant="outline-light"
                                                                         className="w-100 border-2 border-white">Add to cart <i
                                                                     className="bi bi-plus-circle"></i></Button>
-                                                            )}
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                 </Card.Body>

@@ -17,6 +17,8 @@ import Footer from "./components/Foooter/Footer";
 import OrderHistory from "./components/Products/OrderHistory/OrderHistory";
 import Search from "./components/Products/Search/Search";
 import {SearchTermProvider} from "./components/Products/Search/SearchTermContext";
+import {ToastContainer} from "react-toastify";
+
 
 
 
@@ -25,6 +27,7 @@ import {SearchTermProvider} from "./components/Products/Search/SearchTermContext
 function App() {
     return (
         <BrowserRouter>
+
             <SearchTermProvider>
             <HeaderSalesPage></HeaderSalesPage>
             <Routes>
@@ -35,11 +38,12 @@ function App() {
                 <Route path="/signup" element={<SignUp></SignUp>}></Route>
                 <Route path="/detail/:id" element={<ProductDetail></ProductDetail>}></Route>
                 <Route path="/cart" element={<Cart></Cart>}></Route>
-                <Route path="/ordered" element={<OrderHistory></OrderHistory>}></Route>
+                <Route path="/history" element={<OrderHistory></OrderHistory>}></Route>
                 <Route path="/search" element={<Search></Search>}></Route>
             </Routes>
 
             <Footer></Footer>
+
             </SearchTermProvider>
         </BrowserRouter>
 

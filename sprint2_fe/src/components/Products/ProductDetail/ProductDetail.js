@@ -15,6 +15,7 @@ export default function ProductDetail() {
     const [imgIndex, setImgIndex] = useState(0);
     const [imagePaths, setImagePaths] = useState([]);
     const [selectedSize, setSelectedSize] = useState(null);
+    const [quantity, setQuantity] = useState(1);
 
     const handleSizeChange = (event) => {
         const selectedSize = event.target.value;
@@ -121,7 +122,7 @@ export default function ProductDetail() {
                             <div className="col-lg-3 col-md-12 col-sm-12 p-0">
                                 <div className="quantity">
                                     <button className="btn-quantity"><i className="bi bi-dash-lg"></i></button>
-                                    <input className="text-center text-light mx-1" />
+                                    <input value={quantity} min="0" max={listProducts.find(item => item.size.name === selectedSize)?.quantity} className=" text-center text-light mx-1" />
                                     <button className="btn-quantity"><i className="bi bi-plus-lg"></i></button>
                                 </div>
                             </div>

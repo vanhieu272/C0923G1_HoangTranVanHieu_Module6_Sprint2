@@ -16,8 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("api/helios")
+@CrossOrigin(origins = {"http://localhost:3000"}, allowedHeaders = "*", allowCredentials = "true")
+
 public class AccesorySizeRestController {
     @Autowired
     IAccessorySizeService accessorySizeService;

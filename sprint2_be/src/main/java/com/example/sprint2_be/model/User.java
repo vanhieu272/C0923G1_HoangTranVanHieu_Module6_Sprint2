@@ -1,7 +1,7 @@
 package com.example.sprint2_be.model;
 
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 
@@ -24,6 +24,7 @@ public class User {
 
     private String username;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String password;
 
     private String verificationCode;

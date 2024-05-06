@@ -9,18 +9,40 @@ import Modal from 'react-bootstrap/Modal';
 import Form from "react-bootstrap/Form";
 import Search from "../../components/Products/Search/Search";
 import * as service from "../../service/AccessoryService";
-import {Link, redirect, useNavigate} from "react-router-dom";
+import {Link, redirect, useNavigate, NavLink} from "react-router-dom";
 import {useSearchTermContext} from "../Products/Search/SearchTermContext";
+import {toast} from "react-toastify";
+
 
 export default function HeaderSalesPage() {
     const values = [true];
     const [fullscreen, setFullscreen] = useState(true);
     const [show, setShow] = useState(false);
-
     // const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
+    const [isLogin, setIsLogin] = useState();
+    const token = localStorage.getItem("token");
+    const [expanded, setExpanded] = useState(false);
+
+    const [username, setUsername] = useState(localStorage.getItem("username"));
 
     const { searchTerm, setSearchTerm } = useSearchTermContext();
+
+    useEffect(() => {
+        if (token) {
+            setIsLogin(true);
+        } else {
+
+        }
+    }, [token]);
+
+    const handlerLogout = async () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        localStorage.removeItem("role");
+        setIsLogin(false);
+        toast.success("Logout success !!");
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -62,13 +84,20 @@ export default function HeaderSalesPage() {
                                         </Button>
                                     ))}
                                 </Nav.Link>
-                                <Nav.Link className="icon-hover"><i style={{fontSize: "24px"}} className="bi bi-cart-plus"></i></Nav.Link>
-                                <NavDropdown title={<i style={{fontSize: "24px"}} className="bi bi-person-circle"></i>} id="login-out">
-                                    <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-person"></i> My information</NavDropdown.Item>
-                                    <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-bag-heart"></i> Order History</NavDropdown.Item>
-                                    <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-box-arrow-in-right"></i> Log In</NavDropdown.Item>
-                                    <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-x-circle"></i> Log Out</NavDropdown.Item>
-                                </NavDropdown>
+                                 <NavLink to="/cart"className="icon-hover d-flex justify-content-center align-items-center"><i style={{fontSize: "24px"}} className="bi bi-cart-plus"></i></NavLink>
+                                {isLogin ? (<>
+                                    <NavDropdown title={<i style={{fontSize: "24px"}} className="bi bi-person-circle"></i>} id="login-out">
+                                        <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-person"></i> {username}</NavDropdown.Item>
+                                        <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-bag-heart"></i> Payment History</NavDropdown.Item>
+                                        {/*<NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-box-arrow-in-right"></i> Log In</NavDropdown.Item>*/}
+                                        <Link className="text-decoration-none text-black"  onClick={() => handlerLogout()} to="/login"> <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-x-circle"></i> Log Out </NavDropdown.Item></Link>
+                                    </NavDropdown>
+                                </>):(
+                                    <>
+                                        <NavLink to="/login" className="d-flex justify-content-center align-items-center text-white ms-3" ><i style={{fontSize: "24px"}} className="bi bi-person-circle pe-1"></i>Login</NavLink>
+                                    </>
+                                )}
+
                             </Nav>
                         </Navbar.Collapse>
 

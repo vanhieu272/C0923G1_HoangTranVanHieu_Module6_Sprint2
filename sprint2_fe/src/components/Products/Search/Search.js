@@ -60,7 +60,7 @@ export default function Search() {
     }
 
 
-    const [range, setRange] = useState([0, 5000]);
+    const [range, setRange] = useState([0, 500]);
     const handleChanges = (event, newValue) => {
         setRange(newValue);
         console.log(newValue, "newValue")
@@ -142,8 +142,8 @@ export default function Search() {
                                 onChange={handleChanges}
                                 onMouseUp={() => handleMouseUp()}
                                 min={0}
-                                max={5000}
-                                step={1}
+                                max={500}
+                                step={10}
                                 valueLabelDisplay='auto'
                                 color="light"
                             />
