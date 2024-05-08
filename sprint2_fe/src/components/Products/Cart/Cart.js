@@ -9,6 +9,8 @@ import {toast} from "react-toastify";
 import Swal from "sweetalert2";
 import * as service from "../../../service/AccessoryService";
 import {PayPalButton} from "react-paypal-button-v2";
+import {Link} from "react-router-dom";
+import Button from "react-bootstrap/Button";
 
 
 export default function Cart() {
@@ -72,16 +74,16 @@ export default function Cart() {
         Swal.fire({
             icon: "success",
             title: "Delete Cart success",
-            timer: "3000"
+            timer: "2000"
         })
         getCart()
     }
     const deleteCart = async (id, name, idP) => {
         Swal.fire({
             icon: "warning",
-            title: `Do you want to remove a product named <span> ${name} </span> from the cart?`,
+            title: `Do you want to remove <span style="color: red"> ${name} </span> from the cart?`,
             showCancelButton: true,
-            confirmButtonText: "Oke"
+            confirmButtonText: "OK"
         })
             .then((rs) => {
                 if (rs.isConfirmed) {
@@ -129,7 +131,7 @@ export default function Cart() {
                             {shoppingCart ? (shoppingCart.map((value, index) => (
                                     <tr>
                                         <td>
-                                            <button id="remove-product"><i className="bi bi-x-octagon"></i></button>
+                                            <button onClick={() => deleteCart(value.id, value.accessorySize.accessory.name, value.id)} id="remove-product"><i className="bi bi-x-octagon"></i></button>
                                         </td>
 
                                         <td>
@@ -159,7 +161,7 @@ export default function Cart() {
                                                 <button
                                                     onClick={() => editQuantity(0, value.id, value.quantity, value.accessorySize)}
                                                     className="btn-quantity"><i className="bi bi-dash-lg"></i></button>
-                                                <input disabled value={value.quantity}
+                                                <input disabled value={value.quantity} min="0"
                                                        className="text-center text-light mx-1"/>
                                                 <button
                                                     onClick={() => editQuantity(1, value.id, value.quantity, value.products)}
@@ -171,7 +173,7 @@ export default function Cart() {
                                         </td>
                                     </tr>
                                 )
-                            )) : (<div>a</div>)}
+                            )) : (<div>Nothing here :) Let's go shopping !!!</div>)}
 
                             </tbody>
                         </Table>
@@ -194,28 +196,30 @@ export default function Cart() {
                                 <div className="col-8"> $ {USD.format(totalPriceAll)}</div>
                             </div>
                             <div className="mt-4">
-                                {/*<PayPalButton*/}
-                                {/*    */}
-                                {/*/>*/}
+                                {
+                                    username ? (
+                                        <PayPalButton
+                                            amount={totalPriceAll}
+                                            // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                            onSuccess={(details, data) => {
+                                                paymentt()
 
-                                    <PayPalButton
-                                        amount={totalPriceAll}
-                                        // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
-                                        onSuccess={(details, data) => {
-                                            paymentt()
-
-                                            // OPTIONAL: Call your server to save the transaction
-                                            return fetch("/paypal-transaction-complete", {
-                                                method: "post",
-                                                body: JSON.stringify({
-                                                    orderID: data.orderID
-                                                })
-                                            });
-                                        }}
-                                        onError={(e) =>{
-                                            toast.error("Payment fail!!")
-                                        }}
-                                    />
+                                                // OPTIONAL: Call your server to save the transaction
+                                                return fetch("/paypal-transaction-complete", {
+                                                    method: "post",
+                                                    body: JSON.stringify({
+                                                        orderID: data.orderID
+                                                    })
+                                                });
+                                            }}
+                                            onError={(e) =>{
+                                                toast.error("Payment fail!!")
+                                            }}
+                                        />
+                                    ):(<Link to='/login'>
+                                        <Button className="border-1 border-white w-100 bg-black btn-outline-light text-light">Login To Purchase</Button>
+                                    </Link>)
+                                }
 
 
                             </div>

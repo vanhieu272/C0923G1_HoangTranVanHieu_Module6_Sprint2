@@ -41,7 +41,7 @@ export default function SignIn() {
                                 }
                                 navigate("/");
 
-                                // window.location.reload()
+                                window.location.reload()
                             } catch (er) {
                                 Swal.fire({
                                     title: "Login fail",

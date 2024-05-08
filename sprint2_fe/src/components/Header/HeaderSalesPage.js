@@ -42,6 +42,7 @@ export default function HeaderSalesPage() {
         localStorage.removeItem("role");
         setIsLogin(false);
         toast.success("Logout success !!");
+        navigate("/login");
     };
 
     const handleSubmit = async (e) => {
@@ -84,16 +85,18 @@ export default function HeaderSalesPage() {
                                         </Button>
                                     ))}
                                 </Nav.Link>
-                                 <NavLink to="/cart" className="icon-hover mx-2 d-flex justify-content-center align-items-center p-0"><i style={{fontSize: "24px"}} className="bi bi-cart-plus"></i></NavLink>
+
                                 {isLogin ? (<>
+                                    <NavLink to="/cart" className="icon-hover mx-2 d-flex justify-content-center align-items-center p-0"><i style={{fontSize: "24px"}} className="bi bi-cart-plus"></i></NavLink>
                                     <NavDropdown className="p-0 mx-2" title={<i style={{fontSize: "24px"}} className="bi bi-person-circle"><span className="fs-6"> Hi, {username}</span></i>} id="login-out">
                                         <NavDropdown.Item style={{textAlign: 'start'}} className="nav-dropdown-item text-black fs-6"><i className="bi bi-person "></i> My information</NavDropdown.Item>
-                                        <NavDropdown.Item style={{textAlign: 'start'}} className="nav-dropdown-item text-black fs-6"><i className="bi bi-bag-heart"></i> Payment History</NavDropdown.Item>
+                                        <Link to="/history"><NavDropdown.Item style={{textAlign: 'start'}} className="nav-dropdown-item text-black fs-6"><i className="bi bi-bag-heart"></i> Payment History</NavDropdown.Item></Link>
                                         {/*<NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-box-arrow-in-right"></i> Log In</NavDropdown.Item>*/}
                                         <Link className="text-decoration-none text-black"  onClick={() => handlerLogout()} to="/login"> <NavDropdown.Item style={{textAlign: 'start'}} className="nav-dropdown-item text-black fs-6"><i className="bi bi-x-circle"></i> Log Out </NavDropdown.Item></Link>
                                     </NavDropdown>
                                 </>):(
                                     <>
+                                        <NavLink to="/login" className="icon-hover mx-2 d-flex justify-content-center align-items-center p-0"><i style={{fontSize: "24px"}} className="bi bi-cart-plus"></i></NavLink>
                                         <NavLink to="/login" className="d-flex justify-content-center align-items-center text-white ms-3" ><i style={{fontSize: "24px"}} className="bi bi-person-circle pe-1"></i>Login</NavLink>
                                     </>
                                 )}

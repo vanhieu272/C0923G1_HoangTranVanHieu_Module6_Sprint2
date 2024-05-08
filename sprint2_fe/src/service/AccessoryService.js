@@ -221,3 +221,19 @@ export const getBillDetail = async (id) => {
         return res;
     }
 }
+
+export const getBills = async () => {
+
+    if (token != null) {
+        const res = await axios.get(`http://localhost:8080/api/order`
+            ,
+            {
+
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }
+        );
+        return res;
+    }
+}

@@ -199,8 +199,7 @@ export default function AllProducts() {
                                                         <div className="col-12">
                                                             <Link to={`/detail/${product.accessory.id}`}>
                                                                 <Button variant="outline-light"
-                                                                        className="w-100 border-2 border-white">Add to cart <i
-                                                                    className="bi bi-plus-circle"></i></Button>
+                                                                        className="w-100 border-2 border-white">More Detail >></Button>
                                                             </Link>
                                                         </div>
                                                     </div>

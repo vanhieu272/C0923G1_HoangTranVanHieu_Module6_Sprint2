@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -25,7 +26,8 @@ public class Bill {
 
     private Double totalPrice;
 
-    @Column(columnDefinition = "TIMESTAMP DEFAULT now()", updatable = false)
+    @CreationTimestamp
+    @Column(name = "create_date",columnDefinition = "TIMESTAMP DEFAULT now()", updatable = false)
     private LocalDateTime createDate;
 
     @ManyToOne

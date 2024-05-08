@@ -5,6 +5,7 @@ import {Link, useNavigate, useParams} from "react-router-dom";
 import * as service from "../../../service/AccessoryService";
 import LoadingData from "../../LoadingData/LoadingData";
 import {toast} from "react-toastify";
+import Swal from "sweetalert2";
 
 
 export default function ProductDetail() {
@@ -19,6 +20,17 @@ export default function ProductDetail() {
     const [quantity, setQuantity] = useState(1);
     const [sizeQuantity, setSizeQuantity] = useState(0);
     const navigate = useNavigate();
+    const [isLogin, setIsLogin] = useState();
+    const token = localStorage.getItem("token");
+    const [username, setUsername] = useState(localStorage.getItem("username"));
+
+    useEffect(() => {
+        if (token) {
+            setIsLogin(true);
+        } else {
+
+        }
+    }, [token]);
 
     const handleSizeChange = (event) => {
         const selectedSize = event.target.value;
@@ -69,14 +81,23 @@ export default function ProductDetail() {
     }
 
     const addToCart = async () => {
-        console.log(listProducts);
-        let product_size = listProducts.find(item => item.size.name === selectedSize);
-        console.log(product_size);
-        await service.createShoppingcart(product_size, quantity);
-        toast.success(
-            `Add ${quantity} successful ${product_size.accessory.name} to Cart!`
-        );
-        navigate("/");
+       if(isLogin){
+           console.log(listProducts);
+           let product_size = listProducts.find(item => item.size.name === selectedSize);
+           console.log(product_size);
+           await service.createShoppingcart(product_size, quantity);
+           toast.success(
+               `Add ${quantity} successful ${product_size.accessory.name} to Cart!`
+           );
+           navigate("/");
+       }else{
+           Swal.fire({
+               title: "Login Needed",
+               text: "You need login to add to cart !!",
+               icon: "error"
+           })
+           navigate("/login");
+       }
     };
 
 
