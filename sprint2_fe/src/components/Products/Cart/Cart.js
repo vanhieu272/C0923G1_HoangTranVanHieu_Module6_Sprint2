@@ -5,10 +5,11 @@ import React, {useEffect, useState} from "react";
 import "./Cart.css";
 import Form from "react-bootstrap/Form";
 import {Field, Formik} from "formik";
-import {PayPalButton} from "react-paypal-button-v2";
 import {toast} from "react-toastify";
 import Swal from "sweetalert2";
 import * as service from "../../../service/AccessoryService";
+import {PayPalButton} from "react-paypal-button-v2";
+
 
 export default function Cart() {
     const [quantity, setQuantity] = useState(1)
@@ -33,11 +34,10 @@ export default function Cart() {
         }
 
 
-
     }
-    const paymentt =async () => {
+    const paymentt = async () => {
         try {
-            const rs =await service.createOrder()
+            const rs = await service.createOrder()
             await getCart()
             toast.success("Order success")
         } catch (error) {
@@ -51,7 +51,7 @@ export default function Cart() {
             icon: "success",
             title: `Do you want payment?`,
             showCancelButton: true,
-            confirmButtonText: "Oke"
+            confirmButtonText: "OK"
         })
             .then((rs) => {
                 if (rs.isConfirmed) {
@@ -79,7 +79,7 @@ export default function Cart() {
     const deleteCart = async (id, name, idP) => {
         Swal.fire({
             icon: "warning",
-            title: `Do you want to remove a product named <span class='al'> ${name} </span> from the cart?`,
+            title: `Do you want to remove a product named <span> ${name} </span> from the cart?`,
             showCancelButton: true,
             confirmButtonText: "Oke"
         })
@@ -95,89 +95,133 @@ export default function Cart() {
         getCart()
     }, []);
 
+    const USD = new Intl.NumberFormat('US', {
+        style: 'decimal', // Sử dụng kiểu số thập phân
+        minimumFractionDigits: 2, // Số lượng số thập phân tối thiểu là 0
+        maximumFractionDigits: 2, // Số lượng số thập phân tối đa cũng là 0
+    });
+    const initialOptions = {
+        "client-id": "ATFZRK1PlWCDyPdK7LT_ShY4VZ5EJsT_DLuG2qkOcGQ05wVN4YbSgQJFC1BbqVaPFtEic1YgkC79bxEm",
+        currency: "USD",
+        intent: "capture",
+    };
 
     return (
         <>
             <div className="container mt-5">
                 <h2 className="my-3">Shopping cart</h2>
                 <hr className="text-light"/>
-               <div className="row mt-5">
-                   <div id="scroll-col" className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                       <Table responsive="sm" variant="#282828">
-                           <thead>
-                           <tr>
-                               <th></th>
-                               <th>Product</th>
-                               <th></th>
-                               <th className="text-center">Price</th>
-                               <th className="text-center">Quantity</th>
-                               <th className="text-center">Total</th>
-                           </tr>
-                           </thead>
-                           <tbody>
-                           <tr>
-                               <td><button id="remove-product"><i className="bi bi-x-octagon"></i></button></td>
-                               <td>
-                                   <img src="https://heliosglobalbrand.com/cdn/shop/files/lotus-arrow-v2-helios_3_1728x.jpg?v=1713868999" alt="helios"/>
+                <div className="row mt-5">
+                    <div id="scroll-col" className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <Table responsive="sm" variant="#282828">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Product</th>
+                                <th></th>
+                                <th>Size</th>
+                                <th className="text-center">Price</th>
+                                <th className="text-center">Quantity</th>
+                                <th className="text-center">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {shoppingCart ? (shoppingCart.map((value, index) => (
+                                    <tr>
+                                        <td>
+                                            <button id="remove-product"><i className="bi bi-x-octagon"></i></button>
+                                        </td>
 
-                               </td>
-                               <td className="text-left">
-                                   Lotus Ring V2 Helios
-                               </td>
-                               <td className="text-center">
-                                   $95.00
-                               </td>
-                               <td className="">
-                                   <div className="cart-quantity">
-                                       <button className="btn-quantity"><i className="bi bi-dash-lg"></i></button>
-                                       <input className="text-center text-light mx-1" />
-                                       <button className="btn-quantity"><i className="bi bi-plus-lg"></i></button>
-                                   </div>
-                               </td>
-                               <td className="text-center">
-                                   $355.00
-                               </td>
-                           </tr>
-                           </tbody>
-                       </Table>
-                   </div>
-                   <div className="col-lg-4">
+                                        <td>
+                                            {
+                                                value.accessorySize.quantity < 1 ?
+                                                    <img alt="sold out"
+                                                         src="https://w7.pngwing.com/pngs/514/528/png-transparent-sold-out-text-overlay-safety-management-architectural-engineering-convention-business-sold-out-miscellaneous-text-logo.png"/> :
+                                                    <img src={value.accessorySize.accessory.thumbnailImg} alt="helios"/>
+                                            }
+                                        </td>
+
+                                        <td className="text-left">
+                                            {
+                                                value.accessorySize.accessory.name
+                                            }
+                                        </td>
+                                        <td>
+                                            {
+                                                value.accessorySize.size.name
+                                            }
+                                        </td>
+                                        <td className="text-center">
+                                            $ {USD.format(value.accessorySize.price)}
+                                        </td>
+                                        <td className="">
+                                            <div className="cart-quantity">
+                                                <button
+                                                    onClick={() => editQuantity(0, value.id, value.quantity, value.accessorySize)}
+                                                    className="btn-quantity"><i className="bi bi-dash-lg"></i></button>
+                                                <input disabled value={value.quantity}
+                                                       className="text-center text-light mx-1"/>
+                                                <button
+                                                    onClick={() => editQuantity(1, value.id, value.quantity, value.products)}
+                                                    className="btn-quantity"><i className="bi bi-plus-lg"></i></button>
+                                            </div>
+                                        </td>
+                                        <td className="text-center">
+                                            $ {USD.format((value.accessorySize.price * value.quantity))}
+                                        </td>
+                                    </tr>
+                                )
+                            )) : (<div>a</div>)}
+
+                            </tbody>
+                        </Table>
+                    </div>
+                    <div className="col-lg-4">
                         <div id="sticky-col" className="p-3" style={{border: 'solid 1px #fff'}}>
                             <h4>Checkout</h4>
-                            <Formik initialValues={
-                                {
-                                    email : "",
-                                    name: "",
-                                    phoneNumber:"",
-                                    address: ""
-                                }
-
-                            }>
-                            <Form>
-                                <Field name="email" type="text" className="w-100 mt-4" placeholder="Email">
-
-                                </Field>
-                                <Field name="name" type="text" className="w-100 mt-4" placeholder="Full name">
-
-                                </Field>
-                                <Field name="phoneNumber" type="text" className="w-100 mt-4" placeholder="Phone number">
-
-                                </Field>
-                                <Field name="address" type="text" className="w-100 mt-4" placeholder="Address">
-
-                                </Field>
-                                <div className="row d-flex mt-4">
-                                    <p>
-                                        Total:
-                                    </p>
+                            {shoppingCart[0] && (
+                                <>
+                                    <div className="w-100 mt-4 d-flex"><b className="col-4">Email:</b> {shoppingCart[0].user.email}</div>
+                                    <div className="w-100 mt-4 d-flex"><b className="col-4">Full Name:</b> {shoppingCart[0].user.name}</div>
+                                    <div className="w-100 mt-4 d-flex"><b className="col-4">Phone Number:</b> {shoppingCart[0].user.phoneNumber}</div>
+                                    <div className="w-100 mt-4 d-flex"><b className="col-4">Address:</b> {shoppingCart[0].user.address}</div>
+                                </>
+                            )}
+                            <div className="w-100 row d-flex mt-4 ">
+                                <div className="col-4 fw-bold">
+                                    Total:
                                 </div>
-                                <div className="mt-4">
-                                    <PayPalButton/>
-                                </div>
-                            </Form>
-                            </Formik>
+                                <div className="col-8"> $ {USD.format(totalPriceAll)}</div>
+                            </div>
+                            <div className="mt-4">
+                                {/*<PayPalButton*/}
+                                {/*    */}
+                                {/*/>*/}
+
+                                    <PayPalButton
+                                        amount={totalPriceAll}
+                                        // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                        onSuccess={(details, data) => {
+                                            paymentt()
+
+                                            // OPTIONAL: Call your server to save the transaction
+                                            return fetch("/paypal-transaction-complete", {
+                                                method: "post",
+                                                body: JSON.stringify({
+                                                    orderID: data.orderID
+                                                })
+                                            });
+                                        }}
+                                        onError={(e) =>{
+                                            toast.error("Payment fail!!")
+                                        }}
+                                    />
+
+
+                            </div>
+
                         </div>
-                   </div>
+                    </div>
 
                 </div>
             </div>

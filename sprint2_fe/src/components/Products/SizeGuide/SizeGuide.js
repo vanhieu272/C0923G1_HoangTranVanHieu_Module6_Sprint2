@@ -1,7 +1,6 @@
-import Footer from "../../Foooter/Footer";
-import HeaderSalesPage from "../../Header/HeaderSalesPage";
+
 import "./SizeGuide.css";
-import {PayPalButton} from "react-paypal-button-v2";
+
 
 export default function SizeGuide(){
 

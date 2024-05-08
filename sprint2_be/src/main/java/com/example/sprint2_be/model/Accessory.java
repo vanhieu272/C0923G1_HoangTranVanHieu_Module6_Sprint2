@@ -43,4 +43,5 @@ public class Accessory {
     @JsonBackReference
     List<AccessorySize> accessorySizeList;
 
+
 }

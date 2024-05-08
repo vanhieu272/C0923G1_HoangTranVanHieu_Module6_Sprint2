@@ -1,12 +1,15 @@
-#basic-navbar-nav .nav-link{
+#basic-navbar-nav a{
+    text-align: center;
     font-size: large;
     font-weight: 600;
     text-transform: uppercase;
     color: white;
+    height: 50px;
     line-height: 50px;
+    text-decoration: none;
 }
 
-#basic-navbar-nav .nav-link:hover{
+#basic-navbar-nav a:hover{
     text-decoration-line: underline;
     text-decoration-thickness: 0.15rem;
     color: #FEB31F;
@@ -14,6 +17,10 @@
 
 .icon-hover{
     color: white !important;
+}
+
+#login-out{
+    padding: 0!important;
 }
 
 #login-out:hover, .icon-hover:hover{
@@ -28,6 +35,11 @@
 
 #login-out{
     color: white;
+}
+
+.nav-dropdown-item:hover{
+    background-color: #cccccc;
+    text-decoration-line: none !important;
 }
 
 .nav-dropdown-item.active,

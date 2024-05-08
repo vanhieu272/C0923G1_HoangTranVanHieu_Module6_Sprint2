@@ -1,9 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Carousel from "react-bootstrap/Carousel";
 import "./ProductDetail.css";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import * as service from "../../../service/AccessoryService";
 import LoadingData from "../../LoadingData/LoadingData";
+import {toast} from "react-toastify";
 
 
 export default function ProductDetail() {
@@ -16,10 +17,13 @@ export default function ProductDetail() {
     const [imagePaths, setImagePaths] = useState([]);
     const [selectedSize, setSelectedSize] = useState(null);
     const [quantity, setQuantity] = useState(1);
+    const [sizeQuantity, setSizeQuantity] = useState(0);
+    const navigate = useNavigate();
 
     const handleSizeChange = (event) => {
         const selectedSize = event.target.value;
         setSelectedSize(selectedSize);
+        setSizeQuantity(listProducts.find(item => item.size.name === selectedSize)?.quantity);
     };
 
 
@@ -46,6 +50,35 @@ export default function ProductDetail() {
     }, []);
 
 
+    const handleSizeQuantity = (value) => {
+        setSizeQuantity(value);
+    }
+
+    const handleEditquantity = async (value) => {
+        let newQuantity = quantity;
+        if (value === 1) {
+            if (quantity < sizeQuantity) {
+                newQuantity += 1;
+            }
+        } else {
+            if (quantity > 0) {
+                newQuantity -= 1;
+            }
+        }
+        setQuantity(newQuantity);
+    }
+
+    const addToCart = async () => {
+        console.log(listProducts);
+        let product_size = listProducts.find(item => item.size.name === selectedSize);
+        console.log(product_size);
+        await service.createShoppingcart(product_size, quantity);
+        toast.success(
+            `Add ${quantity} successful ${product_size.accessory.name} to Cart!`
+        );
+        navigate("/");
+    };
+
 
     if (listProducts == null) {
         return(
@@ -53,6 +86,8 @@ export default function ProductDetail() {
             <LoadingData></LoadingData>
         </div>)
     }
+
+
 
     return (
         <>
@@ -116,20 +151,21 @@ export default function ProductDetail() {
                             </select>
                         </div>
                         <div className="row mt-3">
-                            <p className="fs-5">In stock: {listProducts.find(item => item.size.name === selectedSize)?.quantity || listProducts[0].quantity}</p>
+                            <p className="fs-5" >In stock: <input value={sizeQuantity}
+                                disabled style={{border: 'none', backgroundColor: 'inherit', color: 'white'}}  /> </p>
                         </div>
                         <div className="row mx-0 d-flex justify-content-between">
                             <div className="col-lg-3 col-md-12 col-sm-12 p-0">
                                 <div className="quantity">
-                                    <button className="btn-quantity"><i className="bi bi-dash-lg"></i></button>
+                                    <button onClick={() => handleEditquantity(0)} className="btn-quantity"><i className="bi bi-dash-lg"></i></button>
                                     <input value={quantity} min="0" max={listProducts.find(item => item.size.name === selectedSize)?.quantity} className=" text-center text-light mx-1" />
-                                    <button className="btn-quantity"><i className="bi bi-plus-lg"></i></button>
+                                    <button onClick={() => handleEditquantity(1)} className="btn-quantity"><i className="bi bi-plus-lg"></i></button>
                                 </div>
                             </div>
 
                             <div className="col-lg-8 col-md-12 col-sm-12 p-0">
                                 <div className="add-cart">
-                                    <button className="btn-add-cart"><i className="bi bi-cart fs-5 pe-2"></i>ADD TO CART</button>
+                                    <button onClick={() => addToCart()} className="btn-add-cart"><i className="bi bi-cart fs-5 pe-2"></i>ADD TO CART</button>
                                 </div>
                             </div>
                         </div>

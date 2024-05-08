@@ -61,7 +61,7 @@ public class BillDetailService implements IBillDetailService {
             do {
                 flag = true;
                 code = random.nextLong() % (max - min + 1) + min;
-                orderCode = "OD-" + code;
+                orderCode = "HEL-" + code;
                 for (int i = 0; i < list.size(); i++) {
                     if (Objects.equals(list.get(i).getCode(), orderCode)) {
                         flag = false;

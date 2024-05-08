@@ -22,7 +22,7 @@ export default function HeaderSalesPage() {
     const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState();
     const token = localStorage.getItem("token");
-    const [expanded, setExpanded] = useState(false);
+
 
     const [username, setUsername] = useState(localStorage.getItem("username"));
 
@@ -69,14 +69,14 @@ export default function HeaderSalesPage() {
                         <Navbar.Toggle id="toggle-menu" aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-center">
                             <Nav>
-                                <Nav.Link href="/all-products" className="mx-1">all</Nav.Link>
-                                <Nav.Link href="#link">rings</Nav.Link>
-                                <Nav.Link href="#link">bracelets</Nav.Link>
-                                <Nav.Link href="#link">earrings</Nav.Link>
-                                <Nav.Link href="#link">necklaces</Nav.Link>
-                                <Nav.Link href="/guide">size guide</Nav.Link>
-                                <Nav.Link href="#link">about us</Nav.Link>
-                                <Nav.Link className="icon-hover">
+                                <NavLink to="/all-products" className="mx-2">all</NavLink>
+                                <NavLink to="#link" className="mx-2">rings</NavLink>
+                                <NavLink to="#link" className="mx-2">bracelets</NavLink>
+                                <NavLink to="#link" className="mx-2">earrings</NavLink>
+                                <NavLink to="#link" className="mx-2">necklaces</NavLink>
+                                <NavLink to="/guide" className="mx-2">size guide</NavLink>
+                                <NavLink to="#link" className="mx-2">about us</NavLink>
+                                <Nav.Link className="icon-hover p-0 mx-2">
                                     {values.map((v, idx) => (
                                         <Button style={{backgroundColor: 'none'}} key={idx} className="icon-hover bg-black p-0 m-0 border-0" onClick={() => handleShow(v)}>
                                             <i style={{fontSize: "24px"}} className="bi bi-search"></i>
@@ -84,13 +84,13 @@ export default function HeaderSalesPage() {
                                         </Button>
                                     ))}
                                 </Nav.Link>
-                                 <NavLink to="/cart"className="icon-hover d-flex justify-content-center align-items-center"><i style={{fontSize: "24px"}} className="bi bi-cart-plus"></i></NavLink>
+                                 <NavLink to="/cart" className="icon-hover mx-2 d-flex justify-content-center align-items-center p-0"><i style={{fontSize: "24px"}} className="bi bi-cart-plus"></i></NavLink>
                                 {isLogin ? (<>
-                                    <NavDropdown title={<i style={{fontSize: "24px"}} className="bi bi-person-circle"></i>} id="login-out">
-                                        <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-person"></i> {username}</NavDropdown.Item>
-                                        <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-bag-heart"></i> Payment History</NavDropdown.Item>
+                                    <NavDropdown className="p-0 mx-2" title={<i style={{fontSize: "24px"}} className="bi bi-person-circle"><span className="fs-6"> Hi, {username}</span></i>} id="login-out">
+                                        <NavDropdown.Item style={{textAlign: 'start'}} className="nav-dropdown-item text-black fs-6"><i className="bi bi-person "></i> My information</NavDropdown.Item>
+                                        <NavDropdown.Item style={{textAlign: 'start'}} className="nav-dropdown-item text-black fs-6"><i className="bi bi-bag-heart"></i> Payment History</NavDropdown.Item>
                                         {/*<NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-box-arrow-in-right"></i> Log In</NavDropdown.Item>*/}
-                                        <Link className="text-decoration-none text-black"  onClick={() => handlerLogout()} to="/login"> <NavDropdown.Item className="nav-dropdown-item"><i className="bi bi-x-circle"></i> Log Out </NavDropdown.Item></Link>
+                                        <Link className="text-decoration-none text-black"  onClick={() => handlerLogout()} to="/login"> <NavDropdown.Item style={{textAlign: 'start'}} className="nav-dropdown-item text-black fs-6"><i className="bi bi-x-circle"></i> Log Out </NavDropdown.Item></Link>
                                     </NavDropdown>
                                 </>):(
                                     <>
